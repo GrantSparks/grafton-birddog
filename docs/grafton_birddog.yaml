@@ -1,0 +1,2996 @@
+# From the repository root execute the following command to generate the client
+# docker run --rm -v D:\repos\grafton-birddog:/grafton-birddog openapitools/openapi-generator-cli generate -i grafton-birddog/docs/grafton_birddog.yaml -g rust -o grafton-birddog --additional-properties=avoidBoxedModels=true,packageName=grafton-birddog,packageVersion=0.1.0
+openapi: 3.0.0
+info:
+  title: BirdDog RESTful API
+  description: Unofficial idiomatic rust bindings for the BirdDog RESTful API 2.0 generated using OpenAPI Generator.
+  version: 2.0.0
+paths:
+  /about:
+    get:
+      summary: Retrieve basic information from your BirdDog device
+      operationId: aboutGet
+      parameters:
+        - in: query
+          name: FirmwareVersion
+          schema:
+            type: string
+          description: Device manufacturer `BIRDDOG`
+      responses:
+        "200":
+          description: Example Status response
+          content:
+            application/json:
+              example:
+                FirmwareVersion: BirdDog Firmware version
+                Format: CAM 1
+                HostName: birddog-device
+                IPAddress: 192.168.100.100
+                NetworkConfigMethod: dhcp
+                NetworkMask: 255.255.255.0
+                SerialNumber: 0123456789
+                Status: active
+  /hostname:
+    get:
+      summary: Retrieve device hostname
+      operationId: hostnameGet
+      responses:
+        "200":
+          description: Example Status response
+          content:
+            text/plain:
+              example: birddog-nnnnn
+  /reboot:
+    get:
+      summary: Reboot BirdDog device
+      operationId: rebootGet
+      responses:
+        "200":
+          description: Immediately upon device reboot, the below value will be returned
+          content:
+            application/json:
+              example: {}
+    post:
+      summary: Reboot BirdDog device
+      operationId: rebootPost
+      responses:
+        "200":
+          description: Immediately upon device reboot, the below value will be returned
+          content:
+            application/json:
+              example: {}
+  /restart:
+    get:
+      summary: Restart video subsystem on device
+      operationId: restartGet
+      responses:
+        "200":
+          description: Immediately upon restart video, the below value will be returned
+          content:
+            application/json:
+              example: {}
+    post:
+      summary: Restart video subsystem on device
+      operationId: restartPost
+      responses:
+        "200":
+          description: Immediately upon restart video, the below value will be returned
+          content:
+            application/json:
+              example: {}
+  /version:
+    get:
+      summary: Hardware version number query
+      operationId: versionGet
+      responses:
+        "200":
+          description: Device standard response
+          content:
+            text/plain:
+              example: BirdDog P200A4_A5
+  /analogaudiosetup:
+    get:
+      summary: Retrieve Audio Settings
+      operationId: analogaudiosetupGet
+      parameters:
+        - in: query
+          name: AnalogAudioInGain
+          schema:
+            type: string
+          description: Audio in gain Range 0 to 100
+        - in: query
+          name: AnalogAudioOutGain
+          schema:
+            type: string
+          description: Audio out gain Range 0 to 100
+        - in: query
+          name: AnalogAudiooutputselect
+          schema:
+            type: string
+          description: DecodeMain, DecodeComms, DecodeLoop
+      responses:
+        "200":
+          description: Device standard response
+          content:
+            application/json:
+              example:
+                AnalogAudioInGain: "80"
+                AnalogAudioOutGain: "80"
+                AnalogAudiooutputselect: DecodeMain
+    post:
+      summary: Set Audio Settings
+      operationId: analogaudiosetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                AnalogAudioInGain:
+                  type: string
+                  description: Audio in gain Range 0 to 100
+                AnalogAudioOutGain:
+                  type: string
+                  description: Audio out gain Range 0 to 100
+                AnalogAudiooutputselect:
+                  type: string
+                  description: DecodeMain, DecodeComms, DecodeLoop
+            example:
+              AnalogAudioInGain: "50"
+              AnalogAudioOutGain: "50"
+              AnalogAudiooutputselect: DecodeMain
+      responses:
+        "200":
+          description: Device standard response
+          content:
+            application/json:
+              example:
+                AnalogAudioInGain: "80"
+                AnalogAudioOutGain: "80"
+                AnalogAudiooutputselect: DecodeMain
+  /operationmode:
+    get:
+      summary: Retrieve current operation mode of your BirdDog device (encode/decode)
+      operationId: operationmodeGet
+      parameters:
+        - in: header
+          name: mode
+          schema:
+            type: string
+          description: Device operation mode `encode` `decode`
+      responses:
+        "200":
+          description: Current device operation mode is displayed
+          content:
+            text/plain:
+              example: encode
+    post:
+      summary: Set base operation modes of your BirdDog device
+      operationId: operationmodePost
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Device operation mode `encode` `decode`
+            example: decode
+      responses:
+        "200":
+          description: Once accepted, the API will return confirmation of the new mode set
+          content:
+            text/plain:
+              example: encode
+  /videooutputinterface:
+    get:
+      summary: Retrieve current videooutputinterface mode of your BirdDog device (sdi/hdmi) or (LowLatency/NormalMode)
+      operationId: videooutputinterfaceGet
+      parameters:
+        - in: header
+          name: videooutput
+          schema:
+            type: string
+          description: Device videooutput mode `sdi` `hdmi` `LowLatency` `NormalMode`
+      responses:
+        "200":
+          description: Current device operation mode is displayed
+          content:
+            text/plain:
+              example: NormalMode
+    post:
+      summary: Set base videooutputinterface mode of your BirdDog device
+      operationId: videooutputinterfacePost
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Device videooutput mode `sdi` `hdmi` `LowLatency` `NormalMode`
+            example: NormalMode
+      responses:
+        "200":
+          description: Once accepted, the API will return confirmation of the new mode set
+          content:
+            text/plain:
+              example: NormalMode
+  /encodeTransport:
+    get:
+      summary: Retrieve current NDI Network Settings
+      operationId: encodeTransportGet
+      parameters:
+        - in: query
+          name: Txpm
+          schema:
+            type: string
+          description: Multicast, TCP, Multi-TCP, UDP
+        - in: query
+          name: Txnetprefix
+          schema:
+            type: string
+          description: xxx.xxx.xxx.xxx
+        - in: query
+          name: Txnetmask
+          schema:
+            type: string
+          description: xxx.xxx.xxx.xxx
+        - in: query
+          name: Txmcttl
+          schema:
+            type: string
+          description: 1
+      responses:
+        "200":
+          description: Current NDI network settings are displayed
+          content:
+            application/json:
+              example:
+                Txpm: TCP
+                Txnetprefix: xxx.xxx.xxx.xxx
+                Txnetmask: xxx.xxx.xxx.xxx
+                Txmcttl: "1"
+    post:
+      summary: Set NDI Network Settings
+      operationId: encodeTransportPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Txpm:
+                  type: string
+                  description: Multicast, TCP, Multi-TCP, UDP
+                Txnetprefix:
+                  type: string
+                  description: xxx.xxx.xxx.xxx
+                Txnetmask:
+                  type: string
+                  description: xxx.xxx.xxx.xxx
+                Txmcttl:
+                  type: string
+                  description: 1
+            example:
+              Txpm: TCP
+              Txnetprefix: xxx.xxx.xxx.xxx
+              Txnetmask: xxx.xxx.xxx.xxx
+              Txmcttl: "1"
+      responses:
+        "200":
+          description: Once accepted, the API will update NDI network settings.
+          content:
+            application/json:
+              example:
+                Txpm: TCP
+                Txnetprefix: xxx.xxx.xxx.xxx
+                Txnetmask: xxx.xxx.xxx.xxx
+                Txmcttl: "1"
+  /encodesetup:
+    get:
+      summary: Retrieve Encode Settings
+      operationId: encodesetupGet
+      parameters:
+        - in: query
+          name: ChNum
+          schema:
+            type: string
+          description: Channel No. Range 1 to 4
+        - in: query
+          name: VideoFormat
+          schema:
+            type: string
+          description: VideoFormat
+        - in: query
+          name: VideoSampleRate
+          schema:
+            type: string
+          description: 420, 422, 444
+        - in: query
+          name: ColorBitDepth
+          schema:
+            type: string
+          description: 8Bit,10Bit,12Bit
+        - in: query
+          name: StreamName
+          schema:
+            type: string
+          description: Name of Stream
+        - in: query
+          name: NDIAudio
+          schema:
+            type: string
+          description: NDIAudioMain,NDIAudioAnalog, NDIAudioMute
+        - in: query
+          name: ScreenSaverMode
+          schema:
+            type: string
+          description: BirdDogSS, BlackSS, CaptureSS
+        - in: query
+          name: BandwidthMode
+          schema:
+            type: string
+          description: Manual, NDIManaged
+        - in: query
+          name: BandwidthSelect
+          schema:
+            type: string
+          description: Range (60 to 360)
+        - in: query
+          name: LoopTally
+          schema:
+            type: string
+          description: LoopTallyEn,LoopTallyDis
+        - in: query
+          name: TallyMode
+          schema:
+            type: string
+          description: TallyOn, TallyOff, VideoMode
+        - in: query
+          name: VideoCSC
+          schema:
+            type: string
+          description: NoCSC, RGB, YVU, YUV444, YVU444
+        - in: query
+          name: NDIGroup
+          schema:
+            type: string
+          description: NDIGroupEn,NDIGroupDis
+        - in: query
+          name: NDIGroupName
+          schema:
+            type: string
+          description: BirdDog
+      responses:
+        "200":
+          description: Device standard response
+          content:
+            application/json:
+              example:
+                ChNum: "1"
+                VideoFormat: <videoformat>
+                VideoSampleRate: "420"
+                ColorBitDepth: 8Bit
+                StreamName: <name of stream>
+                NDIAudio: NDIAudioAnalog
+                ScreenSaverMode: CaptureSS
+                BandwidthMode: NDIManaged
+                BandwidthSelect: "120"
+                LoopTally: LoopTallyDis
+                TallyMode: TallyOn
+                VideoCSC: RGB
+                NDIGroup: NDIGroupDis
+                NDIGroupName: <BirdDog>
+    post:
+      summary: Set Encode Settings
+      operationId: encodesetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ChNum:
+                  type: string
+                  description: Channel No. Range 1 to 4
+                VideoFormat:
+                  type: string
+                VideoSampleRate:
+                  type: string
+                  description: 420, 422, 444
+                ColorBitDepth:
+                  type: string
+                  description: 8Bit,10Bit,12Bit
+                StreamName:
+                  type: string
+                  description: Name of Stream
+                NDIAudio:
+                  type: string
+                  description: NDIAudioMain,NDIAudioAnalog, NDIAudioMute
+                ScreenSaverMode:
+                  type: string
+                  description: BirdDogSS, BlackSS, CaptureSS
+                BandwidthMode:
+                  type: string
+                  description: Manual, NDIManaged
+                BandwidthSelect:
+                  type: string
+                  description: Range (60 to 360)
+                LoopTally:
+                  type: string
+                  description: LoopTallyEn,LoopTallyDis
+                TallyMode:
+                  type: string
+                  description: TallyOn, TallyOff, VideoMode
+                VideoCSC:
+                  type: string
+                  description: NoCSC, RGB, YVU, YUV444, YVU444
+                NDIGroup:
+                  type: string
+                  description: NDIGroupEn,NDIGroupDis
+                NDIGroupName:
+                  type: string
+                  description: BirdDog
+            example:
+              ChNum: "1"
+              VideoFormat: <videoformat>
+              VideoSampleRate: "420"
+              ColorBitDepth: 8Bit
+              StreamName: <name of stream>
+              NDIAudio: NDIAudioAnalog
+              ScreenSaverMode: CaptureSS
+              BandwidthMode: NDIManaged
+              BandwidthSelect: "120"
+              LoopTally: LoopTallyDis
+              TallyMode: TallyOn
+              VideoCSC: RGB
+              NDIGroup: NDIGroupDis
+              NDIGroupName: <BirdDog>
+      responses:
+        "200":
+          description: Device standard response
+          content:
+            application/json:
+              example:
+                ChNum: "1"
+                VideoFormat: <videoformat>
+                VideoSampleRate: "420"
+                ColorBitDepth: 8Bit
+                StreamName: <name of stream>
+                NDIAudio: NDIAudioAnalog
+                ScreenSaverMode: CaptureSS
+                BandwidthMode: NDIManaged
+                BandwidthSelect: "120"
+                LoopTally: LoopTallyDis
+                TallyMode: TallyOn
+                VideoCSC: RGB
+                NDIGroup: NDIGroupDis
+                NDIGroupName: <BirdDog>
+  /capture:
+    get:
+      summary: Capture screensaver frame for Encode/Decode
+      operationId: captureGet
+      parameters:
+        - in: query
+          name: ChNum
+          schema:
+            type: string
+          description: Channel No. Range 1 to 4
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Encode, Decode
+      responses:
+        "200":
+          description: Capture screensaver frame for Encode/Decode
+          content:
+            text/plain:
+              example: Capture Success..
+  /connectTo:
+    get:
+      summary: Retrieve connected NDI Source info (sourceName)
+      operationId: connectToGet
+      parameters:
+        - in: query
+          name: ChNum
+          schema:
+            type: string
+          description: Channel No. Range 1 to 4
+        - in: query
+          name: sourcename
+          schema:
+            type: string
+          description: None
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Status can be `Encode` or `Decode`
+      responses:
+        "200":
+          description: Current connected NDI Source info (sourceName)
+          content:
+            application/json:
+              example:
+                sourceName: None
+    post:
+      summary: Connect to NDI Source
+      operationId: connectToPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sourceName:
+                  type: string
+                  description: None
+                status:
+                  type: string
+                  description: Status can be `Encode` or `Decode`
+            example:
+              sourceName: None
+      responses:
+        "200":
+          description: Current NDI Source Name is displayed
+          content:
+            application/json:
+              example:
+                sourceName: None
+  /decodeTransport:
+    get:
+      summary: Retrieve NDI network settings
+      operationId: decodeTransportGet
+      parameters:
+        - in: query
+          name: rxpm
+          schema:
+            type: string
+          description: Multicast, TCP, Multi-TCP, UDP
+      responses:
+        "200":
+          description: Retrieve NDI network settings
+          content:
+            application/json:
+              example:
+                rxpm: TCP
+    post:
+      summary: Set NDI network settings
+      operationId: decodeTransportPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rxpm:
+                  type: string
+                  description: Multicast, TCP, Multi-TCP, UDP
+            example:
+              rxpm: TCP
+      responses:
+        "200":
+          description: Set NDI network settings
+          content:
+            application/json:
+              example:
+                rxpm: TCP
+  /decodesetup:
+    get:
+      summary: Retrieve Decode Settings
+      operationId: decodesetupGet
+      parameters:
+        - in: query
+          name: ChNum
+          schema:
+            type: string
+          description: Channel No. Range 1 to 4
+        - in: query
+          name: ColorSpace
+          schema:
+            type: string
+          description: RGB, YUV
+        - in: query
+          name: TallyMode
+          schema:
+            type: string
+          description: TallyOn, TallyOff, VideoMode
+        - in: query
+          name: ScreenSaverMode
+          schema:
+            type: string
+          description: BirdDogSS, BlackSS, CaptureSS
+        - in: query
+          name: NDIAudio
+          schema:
+            type: string
+          description: NDIAudioEn, NDIAudioDis
+      responses:
+        "200":
+          description: Current Decode Settings
+          content:
+            application/json:
+              example:
+                ColorSpace: RGB
+                NDIAudio: NDIAudioEn
+                ScreenSaverMode: BirdDogSS
+                TallyMode: VideoMode
+                ChNum: "1"
+    post:
+      summary: Set Decode Settings
+      operationId: decodesetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ChNum:
+                  type: string
+                  description: Channel No. Range 1 to 4
+                ColorSpace:
+                  type: string
+                  description: RGB, YUV
+                TallyMode:
+                  type: string
+                  description: TallyOn, TallyOff, VideoMode
+                ScreenSaverMode:
+                  type: string
+                  description: BirdDogSS, BlackSS, CaptureSS
+                NDIAudio:
+                  type: string
+                  description: NDIAudioEn, NDIAudioDis
+            example:
+              ColorSpace: RGB
+              NDIAudio: NDIAudioEn
+              ScreenSaverMode: BirdDogSS
+              TallyMode: VideoMode
+              ChNum: "1"
+      responses:
+        "200":
+          description: Current Decode Settings
+          content:
+            application/json:
+              example:
+                ColorSpace: RGB
+                NDIAudio: NDIAudioEn
+                ScreenSaverMode: BirdDogSS
+                TallyMode: VideoMode
+                ChNum: "1"
+  /decodestatus:
+    get:
+      summary: Retrieve connected NDI Source Status
+      operationId: decodestatusGet
+      parameters:
+        - in: query
+          name: ChNum
+          schema:
+            type: string
+          description: Channel No. Range 1 to 4
+      responses:
+        "200":
+          description: Current connected NDI Source Status
+          content:
+            application/json:
+              example:
+                Videoresolution: 0x0
+                VideoFramerate: 0p
+                VideoSamplerate: 0:0:0
+                Audiochannels: "0"
+                AudioSamplerate: "0"
+                AverageBitrate: "0"
+  /List:
+    get:
+      summary: Retrieve List of active NDI Sources on the Network
+      operationId: listGet
+      responses:
+        "200":
+          description: List of active NDI Sources on the Network
+          content:
+            application/json:
+              example:
+                None: None
+  /NDIDisServer:
+    get:
+      summary: Retrieve NDI Discovery server info
+      operationId: NDIDisServerGet
+      parameters:
+        - in: query
+          name: NDIDisServ
+          schema:
+            type: string
+          description: NDIDisServEn/NDIDisServDis
+        - in: query
+          name: NDIDisServIP
+          schema:
+            type: string
+          description: xxx.xxx.xxx.xxx
+      responses:
+        "200":
+          description: Retrieve NDI Discovery server info
+          content:
+            application/json:
+              example:
+                NDIDisServ: NDIDisServEn
+                NDIDisServIP: xxx.xxx.xxx.xxx
+    post:
+      summary: Set NDI Discovery server info
+      operationId: NDIDisServerPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                NDIDisServ:
+                  type: string
+                  description: NDIDisServEn/NDIDisServDis
+                NDIDisServIP:
+                  type: string
+                  description: xxx.xxx.xxx.xxx
+            example:
+              NDIDisServ: NDIDisServEn
+              NDIDisServIP: xxx.xxx.xxx.xxx
+      responses:
+        "200":
+          description: Set NDI Discovery server info
+          content:
+            application/json:
+              example:
+                NDIDisServ: NDIDisServEn
+                NDIDisServIP: xxx.xxx.xxx.xxx
+  /NDIGrpName:
+    get:
+      summary: Retrieve GroupName
+      operationId: NDIGrpNameGet
+      responses:
+        "200":
+          description: Return Group Name
+          content:
+            text/plain:
+              example: BirdDogxxx
+    post:
+      summary: Set GroupName
+      operationId: NDIGrpNamePost
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Group Name
+            example: BirdDogxxx
+      responses:
+        "200":
+          description: Set Group Name
+          content:
+            text/plain:
+              example: BirdDogxxx
+  /NDIOffSnSrc:
+    get:
+      summary: Retrieve Off Subnet IP List
+      operationId: NDIOffSnSrcGet
+      responses:
+        "200":
+          description: Off Subnet IP List
+          content:
+            text/plain:
+              example: xxx.xxx.xxx.xxx
+    post:
+      summary: Set Off Subnet IP
+      operationId: NDIOffSnSrcPost
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Off Subnet IP
+            example: xxx.xxx.xxx.xxx
+      responses:
+        "200":
+          description: Set Off Subnet IP
+          content:
+            text/plain:
+              example: xxx.xxx.xxx.xxx
+  /refresh:
+    get:
+      summary: Refresh NDI Source List
+      operationId: refreshGet
+      responses:
+        "200":
+          description: Immediately all the sources on the network will be visible
+          content:
+            application/json:
+              example: {}
+    post:
+      summary: Refresh NDI Source List
+      operationId: refreshPost
+      responses:
+        "200":
+          description: Immediately all the sources on the network will be visible
+          content:
+            application/json:
+              example: {}
+  /reset:
+    get:
+      summary: Reset NDI Source List
+      operationId: resetGet
+      responses:
+        "200":
+          description: Immediately all the sources on the network will be visible
+          content:
+            application/json:
+              example: {}
+    post:
+      summary: Reset NDI Source List
+      operationId: resetPost
+      responses:
+        "200":
+          description: Immediately all the sources on the network will be visible
+          content:
+            application/json:
+              example: {}
+  /birddogptzsetup:
+    get:
+      summary: Retrieve PTZ Settings
+      operationId: birddogptzsetupGet
+      parameters:
+        - in: query
+          name: PanSpeed
+          schema:
+            type: string
+          description: Range from 0 to 21
+        - in: query
+          name: TiltSpeed
+          schema:
+            type: string
+          description: Range from 0 to 18
+        - in: query
+          name: ZoomSpeed
+          schema:
+            type: string
+          description: Range from 0 to 7
+      responses:
+        "200":
+          description: Get PTZ Settings
+          content:
+            application/json:
+              example:
+                PanSpeed: "8"
+                TiltSpeed: "8"
+                ZoomSpeed: "4"
+    post:
+      summary: Set PTZ Settings
+      operationId: birddogptzsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PanSpeed:
+                  type: string
+                  description: Range from 0 to 21
+                TiltSpeed:
+                  type: string
+                  description: Range from 0 to 18
+                ZoomSpeed:
+                  type: string
+                  description: Range from 0 to 7
+            example:
+              PanSpeed: "8"
+              TiltSpeed: "8"
+              ZoomSpeed: "4"
+      responses:
+        "200":
+          description: Set PTZ Settings
+          content:
+            application/json:
+              example:
+                PanSpeed: "8"
+                TiltSpeed: "8"
+                ZoomSpeed: "4"
+  /recall:
+    post:
+      summary: Recall Preset
+      operationId: recallPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Preset:
+                  type: string
+                  description: Preset-1 (Range from 1 to 9)
+            example:
+              Preset: Preset-1
+      responses:
+        "200":
+          description: Recall Preset
+          content:
+            application/json:
+              example:
+                Preset: Preset-1
+  /save:
+    post:
+      summary: Save Preset
+      operationId: savePost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Preset:
+                  type: string
+                  description: Preset-1 (Range from 1 to 9)
+            example:
+              Preset: Preset-1
+      responses:
+        "200":
+          description: Save Preset
+          content:
+            application/json:
+              example:
+                Preset: Preset-1
+  /birddogexpsetup:
+    get:
+      summary: Retrieve Exposure Settings
+      operationId: birddogexpsetupGet
+      parameters:
+        - in: query
+          name: AeResponse
+          schema:
+            type: string
+          description: Range (1 to 48)
+        - in: query
+          name: BackLight
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: BrightLevel
+          schema:
+            type: string
+          description: Range (0, 5 to 31)
+        - in: query
+          name: ExpCompEn
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: ExpCompLvl
+          schema:
+            type: string
+          description: Range (0 to 14, -128 to 127)
+        - in: query
+          name: ExpMode
+          schema:
+            type: string
+          description: FULL-AUTO, MANUAL, SHUTTER-PRI, IRIS-PRI, BRIGHT
+        - in: query
+          name: GainLevel
+          schema:
+            type: string
+          description: Range (1 to GainLimit)
+        - in: query
+          name: GainLimit
+          schema:
+            type: string
+          description: Range (4 to 15)
+        - in: query
+          name: GainPoint
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: GainPointPosition
+          schema:
+            type: string
+          description: Range (1 to 13)
+        - in: query
+          name: HighSensitivity
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: IrisLevel
+          schema:
+            type: string
+          description: Range (0, 5 to 17)
+        - in: query
+          name: ShutterControlOverwrite
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: ShutterMaxSpeed
+          schema:
+            type: string
+          description: Range (20 to 33)
+        - in: query
+          name: ShutterMinSpeed
+          schema:
+            type: string
+          description: Range (16 to ShutterMaxSpeed)
+        - in: query
+          name: ShutterSpeed
+          schema:
+            type: string
+          description: Range (0 to 21)
+        - in: query
+          name: ShutterSpeedOverwrite
+          schema:
+            type: string
+          description: Range(30 - 110)
+        - in: query
+          name: SlowShutterEn
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: SlowShutterLimit
+          schema:
+            type: string
+          description: Range (1 to 6)
+        - in: query
+          name: Spotlight
+          schema:
+            type: string
+          description: On, Off
+      responses:
+        "200":
+          description: Get Exposure Settings
+          content:
+            application/json:
+              example:
+                AeResponse: "1"
+                BackLight: Off
+                BrightLevel: "24"
+                ExpCompEn: Off
+                ExpCompLvl: "-123"
+                ExpMode: FULL-AUTO
+                GainLevel: "4"
+                GainLimit: "11"
+                GainPoint: Off
+                GainPointPosition: "10"
+                HighSensitivity: Off
+                IrisLevel: "21"
+                ShutterControlOverwrite: On
+                ShutterMaxSpeed: "29"
+                ShutterMinSpeed: "16"
+                ShutterSpeed: "16"
+                ShutterSpeedOverwrite: "30"
+                SlowShutterEn: Off
+                SlowShutterLimit: "13"
+                Spotlight: Off
+    post:
+      summary: Set Exposure Settings
+      operationId: birddogexpsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                AeResponse:
+                  type: string
+                  description: Range (1 to 48)
+                BackLight:
+                  type: string
+                  description: On, Off
+                BrightLevel:
+                  type: string
+                  description: Range (0, 5 to 31)
+                ExpCompEn:
+                  type: string
+                  description: On, Off
+                ExpCompLvl:
+                  type: string
+                  description: Range (0 to 14, -128 to 127)
+                ExpMode:
+                  type: string
+                  description: FULL-AUTO, MANUAL, SHUTTER-PRI, IRIS-PRI, BRIGHT
+                GainLevel:
+                  type: string
+                  description: Range (1 to GainLimit)
+                GainLimit:
+                  type: string
+                  description: Range (4 to 15)
+                GainPoint:
+                  type: string
+                  description: On, Off
+                GainPointPosition:
+                  type: string
+                  description: Range (1 to 13)
+                HighSensitivity:
+                  type: string
+                  description: On, Off
+                IrisLevel:
+                  type: string
+                  description: Range (0, 5 to 17)
+                ShutterControlOverwrite:
+                  type: string
+                  description: On, Off
+                ShutterMaxSpeed:
+                  type: string
+                  description: Range (20 to 33)
+                ShutterMinSpeed:
+                  type: string
+                  description: Range (16 to ShutterMaxSpeed)
+                ShutterSpeed:
+                  type: string
+                  description: Range (0 to 21)
+                ShutterSpeedOverwrite:
+                  type: string
+                  description: Range(30 - 110)
+                SlowShutterEn:
+                  type: string
+                  description: On, Off
+                SlowShutterLimit:
+                  type: string
+                  description: Range (1 to 6)
+                Spotlight:
+                  type: string
+                  description: On, Off
+            example:
+              AeResponse: "1"
+              BackLight: Off
+              BrightLevel: "24"
+              ExpCompEn: Off
+              ExpCompLvl: "-123"
+              ExpMode: FULL-AUTO
+              GainLevel: "4"
+              GainLimit: "11"
+              GainPoint: Off
+              GainPointPosition: "10"
+              HighSensitivity: Off
+              IrisLevel: "21"
+              ShutterControlOverwrite: On
+              ShutterMaxSpeed: "29"
+              ShutterMinSpeed: "16"
+              ShutterSpeed: "16"
+              ShutterSpeedOverwrite: "30"
+              SlowShutterEn: Off
+              SlowShutterLimit: "13"
+              Spotlight: Off
+      responses:
+        "200":
+          description: Set Exposure Settings
+          content:
+            application/json:
+              example:
+                AeResponse: "1"
+                BackLight: Off
+                BrightLevel: "24"
+                ExpCompEn: Off
+                ExpCompLvl: "-123"
+                ExpMode: FULL-AUTO
+                GainLevel: "4"
+                GainLimit: "11"
+                GainPoint: Off
+                GainPointPosition: "10"
+                HighSensitivity: Off
+                IrisLevel: "21"
+                ShutterControlOverwrite: On
+                ShutterMaxSpeed: "29"
+                ShutterMinSpeed: "16"
+                ShutterSpeed: "16"
+                ShutterSpeedOverwrite: "30"
+                SlowShutterEn: Off
+                SlowShutterLimit: "13"
+                Spotlight: Off
+  /birddogwbsetup:
+    get:
+      summary: Retrieve White Balance Settings
+      operationId: birddogwbsetupGet
+      parameters:
+        - in: query
+          name: BG
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: BR
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: BlueGain
+          schema:
+            type: string
+          description: Range (0 to 255)
+        - in: query
+          name: ColorTemp
+          schema:
+            type: string
+          description: Range (2800 to 6500)
+        - in: query
+          name: GB
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: GR
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: Level
+          schema:
+            type: string
+          description: Range (0 to 14)
+        - in: query
+          name: Matrix
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: Offset
+          schema:
+            type: string
+          description: Range (0 to 14)
+        - in: query
+          name: Phase
+          schema:
+            type: string
+          description: Range (0 to 14)
+        - in: query
+          name: RB
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: RG
+          schema:
+            type: string
+          description: Range (-99 to 99)
+        - in: query
+          name: RedGain
+          schema:
+            type: string
+          description: Range (0 to 255)
+        - in: query
+          name: Select
+          schema:
+            type: string
+          description: FL LIGHT, STD, OFF, HIGH SAT
+        - in: query
+          name: Speed
+          schema:
+            type: string
+          description: Range (1 to 5)
+        - in: query
+          name: WbMode
+          schema:
+            type: string
+          description: AUTO, INDOOR, OUTDOOR, OUTDOOR-AUTO, ONEPUSH, ATW, MANUAL, SVL-AUTO, SVL, SVL-OUTDOOR-AUTO
+      responses:
+        "200":
+          description: Get White Balance Settings
+          content:
+            application/json:
+              example:
+                BG: "0"
+                BR: "0"
+                BlueGain: "174"
+                ColorTemp: "2800"
+                GB: "0"
+                GR: "0"
+                Level: "4"
+                Matrix: Off
+                Offset: "7"
+                Phase: "7"
+                RB: "0"
+                RG: "0"
+                RedGain: "179"
+                Select: OFF
+                Speed: "3"
+                WbMode: AUTO
+    post:
+      summary: Set White Balance Settings
+      operationId: birddogwbsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                BG:
+                  type: string
+                  description: Range (-99 to 99)
+                BR:
+                  type: string
+                  description: Range (-99 to 99)
+                BlueGain:
+                  type: string
+                  description: Range (0 to 255)
+                ColorTemp:
+                  type: string
+                  description: Range (2800 to 6500)
+                GB:
+                  type: string
+                  description: Range (-99 to 99)
+                GR:
+                  type: string
+                  description: Range (-99 to 99)
+                Level:
+                  type: string
+                  description: Range (0 to 14)
+                Matrix:
+                  type: string
+                  description: On, Off
+                Offset:
+                  type: string
+                  description: Range (0 to 14)
+                Phase:
+                  type: string
+                  description: Range (0 to 14)
+                RB:
+                  type: string
+                  description: Range (-99 to 99)
+                RG:
+                  type: string
+                  description: Range (-99 to 99)
+                RedGain:
+                  type: string
+                  description: Range (0 to 255)
+                Select:
+                  type: string
+                  description: FL LIGHT, STD, OFF, HIGH SAT
+                Speed:
+                  type: string
+                  description: Range (1 to 5)
+                WbMode:
+                  type: string
+                  description: AUTO, INDOOR, OUTDOOR, OUTDOOR-AUTO, ONEPUSH, ATW, MANUAL, SVL-AUTO, SVL, SVL-OUTDOOR-AUTO
+            example:
+              BG: "0"
+              BR: "0"
+              BlueGain: "174"
+              ColorTemp: "2800"
+              GB: "0"
+              GR: "0"
+              Level: "4"
+              Matrix: Off
+              Offset: "7"
+              Phase: "7"
+              RB: "0"
+              RG: "0"
+              RedGain: "179"
+              Select: OFF
+              Speed: "3"
+              WbMode: AUTO
+      responses:
+        "200":
+          description: Set White Balance Settings
+          content:
+            application/json:
+              example:
+                BG: "0"
+                BR: "0"
+                BlueGain: "174"
+                ColorTemp: "2800"
+                GB: "0"
+                GR: "0"
+                Level: "4"
+                Matrix: Off
+                Offset: "7"
+                Phase: "7"
+                RB: "0"
+                RG: "0"
+                RedGain: "179"
+                Select: OFF
+                Speed: "3"
+                WbMode: AUTO
+  /birddogpicsetup:
+    get:
+      summary: Retrieve Picture Settings
+      operationId: birddogpicsetupGet
+      parameters:
+        - in: query
+          name: BackLightCom
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: ChromeSuppress
+          schema:
+            type: string
+          description: OFF, LOW, MEDIUM, HIGH
+        - in: query
+          name: Color
+          schema:
+            type: string
+          description: Range (0 to 15)
+        - in: query
+          name: Contrast
+          schema:
+            type: string
+          description: Range (0 to 15)
+        - in: query
+          name: Effect
+          schema:
+            type: string
+          description: BW, Off
+        - in: query
+          name: Flip
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: Gamma
+          schema:
+            type: string
+          description: Range (0 to 4)
+        - in: query
+          name: HighlightComp
+          schema:
+            type: string
+          description: OFF, LOW, MEDIUM, HIGH
+        - in: query
+          name: HighlightCompMask
+          schema:
+            type: string
+          description: Range (0 to 15)
+        - in: query
+          name: Hue
+          schema:
+            type: string
+          description: Range (0 to 15)
+        - in: query
+          name: IRCutFilter
+          schema:
+            type: string
+          description: Auto, On, Off
+        - in: query
+          name: Mirror
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: NoiseReduction
+          schema:
+            type: string
+          description: Range (Off, 1 to 5)
+        - in: query
+          name: Sharpness
+          schema:
+            type: string
+          description: Range (-128 to 127)
+        - in: query
+          name: Stabilizer
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: TWODNR
+          schema:
+            type: string
+          description: Range (Off, 1 to 5)
+        - in: query
+          name: ThreeDNR
+          schema:
+            type: string
+          description: Range (Off, 1 to 5)
+        - in: query
+          name: WideDynamicRange
+          schema:
+            type: string
+          description: Range (Off, 1 to 6)
+        - in: query
+          name: LowLatency
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: NDFilter
+          schema:
+            type: string
+          description: Range (0 to 3)
+      responses:
+        "200":
+          description: Get Picture Settings
+          content:
+            application/json:
+              example:
+                BackLightCom: On
+                ChromeSuppress: OFF
+                Color: "8"
+                Contrast: "1"
+                Effect: BW
+                Flip: Off
+                Gamma: "1"
+                HighlightComp: On
+                HighlightCompMask: "3"
+                Hue: "7"
+                IRCutFilter: Off
+                Mirror: Off
+                NoiseReduction: Off
+                Sharpness: "122"
+                Stabilizer: Off
+                TWODNR: "2"
+                ThreeDNR: "2"
+                WideDynamicRange: Off
+                LowLatency: Off
+                NDFilter: "2"
+    post:
+      summary: Set Picture Settings
+      operationId: birddogpicsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                BackLightCom:
+                  type: string
+                  description: On, Off
+                ChromeSuppress:
+                  type: string
+                  description: OFF, LOW, MEDIUM, HIGH
+                Color:
+                  type: string
+                  description: Range (0 to 15)
+                Contrast:
+                  type: string
+                  description: Range (0 to 15)
+                Effect:
+                  type: string
+                  description: BW, Off
+                Flip:
+                  type: string
+                  description: On, Off
+                Gamma:
+                  type: string
+                  description: Range (0 to 4)
+                HighlightComp:
+                  type: string
+                  description: OFF, LOW, MEDIUM, HIGH
+                HighlightCompMask:
+                  type: string
+                  description: Range (0 to 15)
+                Hue:
+                  type: string
+                  description: Range (0 to 15)
+                IRCutFilter:
+                  type: string
+                  description: Auto, On, Off
+                Mirror:
+                  type: string
+                  description: On, Off
+                NoiseReduction:
+                  type: string
+                  description: Range (Off, 1 to 5)
+                Sharpness:
+                  type: string
+                  description: Range (-128 to 127)
+                Stabilizer:
+                  type: string
+                  description: On, Off
+                TWODNR:
+                  type: string
+                  description: Range (Off, 1 to 5)
+                ThreeDNR:
+                  type: string
+                  description: Range (Off, 1 to 5)
+                WideDynamicRange:
+                  type: string
+                  description: Range (Off, 1 to 6)
+                LowLatency:
+                  type: string
+                  description: On, Off
+                NDFilter:
+                  type: string
+                  description: Range (0 to 3)
+            example:
+              BackLightCom: On
+              ChromeSuppress: OFF
+              Color: "8"
+              Contrast: "1"
+              Effect: BW
+              Flip: Off
+              Gamma: "1"
+              HighlightComp: On
+              HighlightCompMask: "3"
+              Hue: "7"
+              IRCutFilter: Off
+              Mirror: Off
+              NoiseReduction: Off
+              Sharpness: "122"
+              Stabilizer: Off
+              TWODNR: "2"
+              ThreeDNR: "2"
+              WideDynamicRange: Off
+              LowLatency: Off
+              NDFilter: "2"
+      responses:
+        "200":
+          description: Set Picture Settings
+          content:
+            application/json:
+              example:
+                BackLightCom: On
+                ChromeSuppress: OFF
+                Color: "8"
+                Contrast: "1"
+                Effect: BW
+                Flip: Off
+                Gamma: "1"
+                HighlightComp: On
+                HighlightCompMask: "3"
+                Hue: "7"
+                IRCutFilter: Off
+                Mirror: Off
+                NoiseReduction: Off
+                Sharpness: "122"
+                Stabilizer: Off
+                TWODNR: "2"
+                ThreeDNR: "2"
+                WideDynamicRange: Off
+                LowLatency: Off
+                NDFilter: "2"
+  /birddogcmsetup:
+    get:
+      summary: Retrieve Colour Matrix Settings
+      operationId: birddogcmsetupGet
+      parameters:
+        - in: query
+          name: BlueGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: BlueHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: ColourGain
+          schema:
+            type: string
+          description: Range (0 to 255)
+        - in: query
+          name: CyanGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: CyanHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: GreenGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: GreenHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: HuePhase
+          schema:
+            type: string
+          description: Range (0 to 255)
+        - in: query
+          name: MagGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: MagHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: RedGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: RedHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: YellowGain
+          schema:
+            type: string
+          description: Range (0 to 64)
+        - in: query
+          name: YellowHue
+          schema:
+            type: string
+          description: Range (0 to 64)
+      responses:
+        "200":
+          description: Get Colour Matrix Settings
+          content:
+            application/json:
+              example:
+                BlueGain: "32"
+                BlueHue: "32"
+                ColourGain: "128"
+                CyanGain: "32"
+                CyanHue: "32"
+                GreenGain: "32"
+                GreenHue: "32"
+                HuePhase: "128"
+                MagGain: "32"
+                MagHue: "32"
+                RedGain: "32"
+                RedHue: "32"
+                YellowGain: "32"
+                YellowHue: "32"
+    post:
+      summary: Set Colour Matrix Settings
+      operationId: birddogcmsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                BlueGain:
+                  type: string
+                  description: Range (0 to 64)
+                BlueHue:
+                  type: string
+                  description: Range (0 to 64)
+                ColourGain:
+                  type: string
+                  description: Range (0 to 255)
+                CyanGain:
+                  type: string
+                  description: Range (0 to 64)
+                CyanHue:
+                  type: string
+                  description: Range (0 to 64)
+                GreenGain:
+                  type: string
+                  description: Range (0 to 64)
+                GreenHue:
+                  type: string
+                  description: Range (0 to 64)
+                HuePhase:
+                  type: string
+                  description: Range (0 to 255)
+                MagGain:
+                  type: string
+                  description: Range (0 to 64)
+                MagHue:
+                  type: string
+                  description: Range (0 to 64)
+                RedGain:
+                  type: string
+                  description: Range (0 to 64)
+                RedHue:
+                  type: string
+                  description: Range (0 to 64)
+                YellowGain:
+                  type: string
+                  description: Range (0 to 64)
+                YellowHue:
+                  type: string
+                  description: Range (0 to 64)
+            example:
+              BlueGain: "32"
+              BlueHue: "32"
+              ColourGain: "128"
+              CyanGain: "32"
+              CyanHue: "32"
+              GreenGain: "32"
+              GreenHue: "32"
+              HuePhase: "128"
+              MagGain: "32"
+              MagHue: "32"
+              RedGain: "32"
+              RedHue: "32"
+              YellowGain: "32"
+              YellowHue: "32"
+      responses:
+        "200":
+          description: Set Colour Matrix Settings
+          content:
+            application/json:
+              example:
+                BlueGain: "32"
+                BlueHue: "32"
+                ColourGain: "128"
+                CyanGain: "32"
+                CyanHue: "32"
+                GreenGain: "32"
+                GreenHue: "32"
+                HuePhase: "128"
+                MagGain: "32"
+                MagHue: "32"
+                RedGain: "32"
+                RedHue: "32"
+                YellowGain: "32"
+                YellowHue: "32"
+  /birddogadvancesetup:
+    get:
+      summary: Retrieve Advanced Settings
+      operationId: birddogadvancesetupGet
+      parameters:
+        - in: query
+          name: Brightness
+          schema:
+            type: string
+          description: Range (0 to 6)
+        - in: query
+          name: BrightnessComp
+          schema:
+            type: string
+          description: VERY DARK, DARK, STANDARD, BRIGHT
+        - in: query
+          name: CompLevel
+          schema:
+            type: string
+          description: LOW, MID, HIGH
+        - in: query
+          name: GammaOffset
+          schema:
+            type: string
+          description: Range (16 to 64)
+        - in: query
+          name: HighResolution
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: VideoEnhancement
+          schema:
+            type: string
+          description: On, Off
+      responses:
+        "200":
+          description: Get Advanced Settings
+          content:
+            application/json:
+              example:
+                Brightness: "2"
+                BrightnessComp: STANDARD
+                CompLevel: LOW
+                GammaOffset: "16"
+                HighResolution: Off
+                VideoEnhancement: Off
+    post:
+      summary: Set Advanced Settings
+      operationId: birddogadvancesetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Brightness:
+                  type: string
+                  description: Range (0 to 6)
+                BrightnessComp:
+                  type: string
+                  description: VERY DARK, DARK, STANDARD, BRIGHT
+                CompLevel:
+                  type: string
+                  description: LOW, MID, HIGH
+                GammaOffset:
+                  type: string
+                  description: Range (16 to 64)
+                HighResolution:
+                  type: string
+                  description: On, Off
+                VideoEnhancement:
+                  type: string
+                  description: On, Off
+            example:
+              Brightness: "2"
+              BrightnessComp: STANDARD
+              CompLevel: LOW
+              GammaOffset: "16"
+              HighResolution: Off
+              VideoEnhancement: Off
+      responses:
+        "200":
+          description: Set Advanced Settings
+          content:
+            application/json:
+              example:
+                Brightness: "2"
+                BrightnessComp: STANDARD
+                CompLevel: LOW
+                GammaOffset: "16"
+                HighResolution: Off
+                VideoEnhancement: Off
+  /birddogexternalsetup:
+    get:
+      summary: Retrieve External Settings
+      operationId: birddogexternalsetupGet
+      parameters:
+        - in: query
+          name: Aux
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: RainWiper
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: V12vOut
+          schema:
+            type: string
+          description: On, Off
+      responses:
+        "200":
+          description: Get External Settings
+          content:
+            application/json:
+              example:
+                Aux: Off
+                RainWiper: Off
+                V12vOut: Off
+    post:
+      summary: Set External Settings
+      operationId: birddogexternalsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Aux:
+                  type: string
+                  description: On, Off
+                RainWiper:
+                  type: string
+                  description: On, Off
+                V12vOut:
+                  type: string
+                  description: On, Off
+            example:
+              Aux: Off
+              RainWiper: Off
+              V12vOut: Off
+      responses:
+        "200":
+          description: Set External Settings
+          content:
+            application/json:
+              example:
+                Aux: Off
+                RainWiper: Off
+                V12vOut: Off
+  /birddogdetsetup:
+    get:
+      summary: Retrieve Detail Settings
+      operationId: birddogdetsetupGet
+      parameters:
+        - in: query
+          name: Bandwidth
+          schema:
+            type: string
+          description: DEFAULT, LOW, MIDDLE, HIGH, WIDE
+        - in: query
+          name: BwBalance
+          schema:
+            type: string
+          description: TYPE1, TYPE2, TYPE3, TYPE4, TYPE5
+        - in: query
+          name: Crispening
+          schema:
+            type: string
+          description: Range (0 to 7)
+        - in: query
+          name: Detail
+          schema:
+            type: string
+          description: On, Off
+        - in: query
+          name: HighLightDetail
+          schema:
+            type: string
+          description: Range (0 to 4)
+        - in: query
+          name: HvBalance
+          schema:
+            type: string
+          description: Range (-2 to 2)
+        - in: query
+          name: Limit
+          schema:
+            type: string
+          description: Range (0 to 7)
+        - in: query
+          name: SuperLow
+          schema:
+            type: string
+          description: Range (0 to 7)
+      responses:
+        "200":
+          description: Get Detail Settings
+          content:
+            application/json:
+              example:
+                Bandwidth: DEFAULT
+                BwBalance: TYPE1
+                Crispening: "0"
+                Detail: On
+                HighLightDetail: "0"
+                HvBalance: "-2"
+                Level: "3"
+                Limit: "3"
+                SuperLow: "0"
+    post:
+      summary: Set Detail Settings
+      operationId: birddogdetsetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Bandwidth:
+                  type: string
+                  description: DEFAULT, LOW, MIDDLE, HIGH, WIDE
+                BwBalance:
+                  type: string
+                  description: TYPE1, TYPE2, TYPE3, TYPE4, TYPE5
+                Crispening:
+                  type: string
+                  description: Range (0 to 7)
+                Detail:
+                  type: string
+                  description: On, Off
+                HighLightDetail:
+                  type: string
+                  description: Range (0 to 4)
+                HvBalance:
+                  type: string
+                  description: Range (-2 to 2)
+                Limit:
+                  type: string
+                  description: Range (0 to 7)
+                SuperLow:
+                  type: string
+                  description: Range (0 to 7)
+            example:
+              Bandwidth: DEFAULT
+              BwBalance: TYPE1
+              Crispening: "0"
+              Detail: On
+              HighLightDetail: "0"
+              HvBalance: "-2"
+              Level: "3"
+              Limit: "3"
+              SuperLow: "0"
+      responses:
+        "200":
+          description: Set Detail Settings
+          content:
+            application/json:
+              example:
+                Bandwidth: DEFAULT
+                BwBalance: TYPE1
+                Crispening: "0"
+                Detail: On
+                HighLightDetail: "0"
+                HvBalance: "-2"
+                Level: "3"
+                Limit: "3"
+                SuperLow: "0"
+  /birddoggammasetup:
+    get:
+      summary: Retrieve Gamma Settings
+      operationId: birddoggammasetupGet
+      parameters:
+        - in: query
+          name: BlackGammaLevel
+          schema:
+            type: string
+          description: Range (0 to 14)
+        - in: query
+          name: BlackLevel
+          schema:
+            type: string
+          description: Range (0 to 96)
+        - in: query
+          name: BlackLevelRange
+          schema:
+            type: string
+          description: LOW, MID, HIGH
+        - in: query
+          name: Effect
+          schema:
+            type: string
+          description: Range (-3 to 3)
+        - in: query
+          name: Level
+          schema:
+            type: string
+          description: Range (0 to 14)
+        - in: query
+          name: Offset
+          schema:
+            type: string
+          description: Range (-64 to 64)
+        - in: query
+          name: Pattern
+          schema:
+            type: string
+          description: Range (0 to 512)
+        - in: query
+          name: PatternFine
+          schema:
+            type: string
+          description: Range (0 to9)
+        - in: query
+          name: Settings
+          schema:
+            type: string
+          description: PATTERN, STANDARD, STRAIGHT
+        - in: query
+          name: VisibilityEnhancer
+          schema:
+            type: string
+          description: On, Off
+      responses:
+        "200":
+          description: Get Gamma Settings
+          content:
+            application/json:
+              example:
+                BlackGammaLevel: "7"
+                BlackLevel: "0"
+                BlackLevelRange: LOW
+                Effect: "0"
+                Level: "7"
+                Offset: "0"
+                Pattern: "51"
+                PatternFine: "2"
+                Settings: STANDARD
+                VisibilityEnhancer: Off
+    post:
+      summary: Set Gamma Settings
+      operationId: birddoggammasetupPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                BlackGammaLevel:
+                  type: string
+                  description: Range (0 to 14)
+                BlackLevel:
+                  type: string
+                  description: Range (0 to 96)
+                BlackLevelRange:
+                  type: string
+                  description: LOW, MID, HIGH
+                Effect:
+                  type: string
+                  description: Range (-3 to 3)
+                Level:
+                  type: string
+                  description: Range (0 to 14)
+                Offset:
+                  type: string
+                  description: Range (-64 to 64)
+                Pattern:
+                  type: string
+                  description: Range (0 to 512)
+                PatternFine:
+                  type: string
+                  description: Range (0 to9)
+                Settings:
+                  type: string
+                  description: PATTERN, STANDARD, STRAIGHT
+                VisibilityEnhancer:
+                  type: string
+                  description: On, Off
+            example:
+              BlackGammaLevel: "7"
+              BlackLevel: "0"
+              BlackLevelRange: LOW
+              Effect: "0"
+              Level: "7"
+              Offset: "0"
+              Pattern: "51"
+              PatternFine: "2"
+              Settings: STANDARD
+              VisibilityEnhancer: Off
+      responses:
+        "200":
+          description: Set Gamma Settings
+          content:
+            application/json:
+              example:
+                BlackGammaLevel: "7"
+                BlackLevel: "0"
+                BlackLevelRange: LOW
+                Effect: "0"
+                Level: "7"
+                Offset: "0"
+                Pattern: "51"
+                PatternFine: "2"
+                Settings: STANDARD
+                VisibilityEnhancer: Off
+  /birddogsil2codec:
+    get:
+      summary: Retrieve Silicon2 Codec Settings
+      operationId: birddogsil2codecGet
+      parameters:
+        - in: query
+          name: Protocol
+          schema:
+            type: string
+          description: RTSP, SRT, HX, RTMP, DISABLE
+        - in: query
+          name: SelectedMode
+          schema:
+            type: string
+          description: Custom, low, med, high, ultra
+        - in: query
+          name: QuantFactorI
+          schema:
+            type: string
+          description: Range (18 to 47)
+        - in: query
+          name: QuantFactorP
+          schema:
+            type: string
+          description: Range (18 to 47)
+        - in: query
+          name: GOPSize
+          schema:
+            type: string
+          description: Range (1 to 59)
+        - in: query
+          name: Bitrate
+          schema:
+            type: string
+          description: Range (1 to 80)
+      responses:
+        "200":
+          description: Get Silicon2 Codec Settings
+          content:
+            application/json:
+              example:
+                DISABLE:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                HX:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: high
+                  high:
+                    Bitrate: "18"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                RTMP:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                RTSP:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                SRT:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+    post:
+      summary: Set Silicon2 Codec Settings
+      operationId: birddogsil2codecPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Protocol:
+                  type: string
+                  description: SRT, RTSP, RTMP, HX, DISABLE
+                BitrateControl:
+                  type: string
+                  description: vbr, cbr
+                ModeSel:
+                  type: string
+                  description: Custom, low, med, high, ultra
+                QuantFactorI:
+                  type: string
+                  description: Range (18 to 47)
+                QuantFactorP:
+                  type: string
+                  description: Range (18 to 47)
+                GOPSize:
+                  type: string
+                  description: Range (1 to 59)
+                Bitrate:
+                  type: string
+                  description: Range (1 to 80)
+            example:
+              DISABLE:
+                BitrateControl: cbr
+                Custom:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ModeSel: Custom
+                high:
+                  Bitrate: "10"
+                  GOPSize: "30"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                low:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                med:
+                  Bitrate: "8"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ultra:
+                  Bitrate: "50"
+                  GOPSize: "1"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+              HX:
+                BitrateControl: cbr
+                Custom:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ModeSel: high
+                high:
+                  Bitrate: "18"
+                  GOPSize: "30"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                low:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                med:
+                  Bitrate: "8"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ultra:
+                  Bitrate: "50"
+                  GOPSize: "1"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+              RTMP:
+                BitrateControl: cbr
+                Custom:
+                  Bitrate: "3"
+                  GOPSize: "59"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ModeSel: Custom
+                high:
+                  Bitrate: "10"
+                  GOPSize: "30"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                low:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                med:
+                  Bitrate: "8"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ultra:
+                  Bitrate: "50"
+                  GOPSize: "1"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+              RTSP:
+                BitrateControl: cbr
+                Custom:
+                  Bitrate: "3"
+                  GOPSize: "59"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ModeSel: Custom
+                high:
+                  Bitrate: "10"
+                  GOPSize: "30"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                low:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                med:
+                  Bitrate: "8"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ultra:
+                  Bitrate: "50"
+                  GOPSize: "1"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+              SRT:
+                BitrateControl: cbr
+                Custom:
+                  Bitrate: "3"
+                  GOPSize: "59"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ModeSel: Custom
+                high:
+                  Bitrate: "10"
+                  GOPSize: "30"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                low:
+                  Bitrate: "3"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                med:
+                  Bitrate: "8"
+                  GOPSize: "60"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+                ultra:
+                  Bitrate: "50"
+                  GOPSize: "1"
+                  QuantFactorI: "30"
+                  QuantFactorP: "30"
+      responses:
+        "200":
+          description: Set Silicon2 Codec Settings
+          content:
+            application/json:
+              example:
+                DISABLE:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                HX:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: high
+                  high:
+                    Bitrate: "18"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                RTMP:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                RTSP:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                SRT:
+                  BitrateControl: cbr
+                  Custom:
+                    Bitrate: "3"
+                    GOPSize: "59"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ModeSel: Custom
+                  high:
+                    Bitrate: "10"
+                    GOPSize: "30"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  low:
+                    Bitrate: "3"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  med:
+                    Bitrate: "8"
+                    GOPSize: "60"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+                  ultra:
+                    Bitrate: "50"
+                    GOPSize: "1"
+                    QuantFactorI: "30"
+                    QuantFactorP: "30"
+  /birddogsil2enc:
+    get:
+      summary: Retrieve Silicon2 Encode Settings
+      operationId: birddogsil2encGet
+      parameters:
+        - in: query
+          name: Streaming Protocol
+          schema:
+            type: string
+          description: RTSP, SRT, HX, RTMP, DISABLE
+        - in: query
+          name: Port
+          schema:
+            type: string
+          description: RTSP or SRT Port
+        - in: query
+          name: Stream Name
+          schema:
+            type: string
+          description: RTSP Stream Name
+        - in: query
+          name: AuthEnable
+          schema:
+            type: string
+          description: true / false
+        - in: query
+          name: UserName
+          schema:
+            type: string
+          description: Minimum 4 Characters
+        - in: query
+          name: Password
+          schema:
+            type: string
+          description: Minimum 4 Characters
+        - in: query
+          name: IPAddress
+          schema:
+            type: string
+          description: SRT IP Address
+        - in: query
+          name: mode
+          schema:
+            type: string
+          description: caller, listener, rendezvous
+        - in: query
+          name: latency
+          schema:
+            type: string
+          description: Range ( 80 to 8000)
+        - in: query
+          name: Encryption
+          schema:
+            type: string
+          description: true / false
+        - in: query
+          name: passphrase
+          schema:
+            type: string
+          description: Text Length (10 to 79 Characters)
+        - in: query
+          name: pbkeylen
+          schema:
+            type: string
+          description: 16, 24, 32
+        - in: query
+          name: streamid
+          schema:
+            type: string
+          description: upto 512
+        - in: query
+          name: Server Selection
+          schema:
+            type: string
+          description: RTMP - local, remote
+        - in: query
+          name: StreamKeyLocal
+          schema:
+            type: string
+          description: Text Length (10 to 79 Characters)
+        - in: query
+          name: StreamKeyRemote
+          schema:
+            type: string
+          description: Text Length (10 to 79 Characters)
+        - in: query
+          name: Server
+          schema:
+            type: string
+          description: Remote Server URL
+        - in: query
+          name: HaiVisionPlayerSupport
+          schema:
+            type: string
+          description: true / false
+      responses:
+        "200":
+          description: Get Silicon2 Encode Settings
+          content:
+            application/json:
+              example:
+                HaiVisionPlayerSupport: "true"
+                RTMP:
+                  AuthEnable: "0"
+                  ConnectionURL: rtmp://192.168.2.197:1935/bdlive/birddogkey
+                  Password: testpwd
+                  Server: TestUrl
+                  ServerSelection: local
+                  StreamKeyLocal: birddogkey
+                  StreamKeyRemote: remotekey
+                  UserName: testuser
+                RTSP:
+                  AuthEnable: "0"
+                  ConnectionURL: rtsp://192.168.2.197:3489/birddog-stream
+                  Password: ""
+                  Port: "3489"
+                  StreamName: birddog-stream
+                  UserName: ""
+                SRT:
+                  ConnectionURL: srt://192.168.2.197:7900?mode=listener&latency=120
+                  Encryption: "false"
+                  IPAddress: ""
+                  Port: "7900"
+                  latency: "120"
+                  mode: caller
+                  passphrase: ""
+                  pbkeylen: "32"
+                  streamid: "21"
+                StreamingProtocol: SRT
+    post:
+      summary: Set Silicon2 Encode Settings
+      operationId: birddogsil2encPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Streaming Protocol:
+                  type: string
+                  description: RTSP, SRT, HX, RTMP, DISABLE
+                Port:
+                  type: string
+                  description: RTSP or SRT Port
+                Stream Name:
+                  type: string
+                  description: RTSP Stream Name
+                UserName:
+                  type: string
+                  description: Minimum 4 Characters
+                Password:
+                  type: string
+                  description: Minimum 4 Characters
+                IPAddress:
+                  type: string
+                  description: SRT IP Address
+                mode:
+                  type: string
+                  description: caller, listener, rendezvous
+                latency:
+                  type: string
+                  description: Range ( 80 to 8000)
+                Encryption:
+                  type: string
+                  description: true / false
+                passphrase:
+                  type: string
+                  description: Text Length (10 to 79 Characters)
+                pbkeylen:
+                  type: string
+                  description: 16, 24, 32
+                streamid:
+                  type: string
+                  description: upto 512
+                Server Selection:
+                  type: string
+                  description: RTMP - local, remote
+                AuthEnable:
+                  type: string
+                  description: true / false
+                StreamKeyLocal:
+                  type: string
+                  description: Text Length (10 to 79 Characters)
+                StreamKeyRemote:
+                  type: string
+                  description: Text Length (10 to 79 Characters)
+                Server:
+                  type: string
+                  description: Remote Server URL
+                HaiVisionPlayerSupport:
+                  type: string
+                  description: true / false
+            example:
+              HaiVisionPlayerSupport: "true"
+              RTMP:
+                AuthEnable: "0"
+                ConnectionURL: rtmp://192.168.2.197:1935/bdlive/birddogkey
+                Password: testpwd
+                Server: TestUrl
+                ServerSelection: local
+                StreamKeyLocal: birddogkey
+                StreamKeyRemote: remotekey
+                UserName: testuser
+              RTSP:
+                AuthEnable: "0"
+                ConnectionURL: rtsp://192.168.2.197:3489/birddog-stream
+                Password: ""
+                Port: "3489"
+                StreamName: birddog-stream
+                UserName: ""
+              SRT:
+                ConnectionURL: srt://192.168.2.197:7900?mode=listener&latency=120
+                Encryption: "false"
+                IPAddress: ""
+                Port: "7900"
+                latency: "120"
+                mode: caller
+                passphrase: ""
+                pbkeylen: "32"
+                streamid: "21"
+              StreamingProtocol: SRT
+      responses:
+        "200":
+          description: Set Silicon2 Encode Settings
+          content:
+            application/json:
+              example:
+                HaiVisionPlayerSupport: "true"
+                RTMP:
+                  AuthEnable: "0"
+                  ConnectionURL: rtmp://192.168.2.197:1935/bdlive/birddogkey
+                  Password: testpwd
+                  Server: TestUrl
+                  ServerSelection: local
+                  StreamKeyLocal: birddogkey
+                  StreamKeyRemote: remotekey
+                  UserName: testuser
+                RTSP:
+                  AuthEnable: "0"
+                  ConnectionURL: rtsp://192.168.2.197:3489/birddog-stream
+                  Password: ""
+                  Port: "3489"
+                  StreamName: birddog-stream
+                  UserName: ""
+                SRT:
+                  ConnectionURL: srt://192.168.2.197:7900?mode=listener&latency=120
+                  Encryption: "false"
+                  IPAddress: ""
+                  Port: "7900"
+                  latency: "120"
+                  mode: caller
+                  passphrase: ""
+                  pbkeylen: "32"
+                  streamid: "21"
+                StreamingProtocol: SRT
