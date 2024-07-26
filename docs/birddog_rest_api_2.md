@@ -590,7 +590,7 @@ http://192.168.2.197:8080/encodesetup
 
 ### captureGet
 
-Capture screensaver frame for Encode/Decode
+Capture frame for Encode/Decode
 
 This command will capture screensaver frame for Encode/Decode.
 

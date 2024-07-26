@@ -1,10 +1,14 @@
 # grafton-birddog
 
-Unofficial idiomatic rust bindings for the BirdDog RESTful API 2.0.
+Unofficial idiomatic rust bindings for the [BirdDog RESTful API 2.0](https://birddog.tv/AV/API/index.html)
 
-## Overview
+## Usage
 
-This is a project by the [Grafton Machine Shed](https://www.grafton.ai) and while we use it ourselves, we're only testing functionality as we need it in our own projects.
+See the [examples](examples) directory for usage examples.
+
+## Status
+
+This is a work in progress that we use on our own projects, so we're really only testing each API function as we need them. If you find a bug, please open an issue or submit a PR. Thanks!
 
 ## Installation
 
@@ -17,6 +21,10 @@ grafton-birddog = "*"
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss what you would like to change.
+
+## About
+
+This is a project by the [Grafton Machine Shed](https://www.grafton.ai)
 
 ## License
 
