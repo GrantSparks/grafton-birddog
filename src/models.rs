@@ -1,27 +1,26 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-// Enums with lowercase renaming
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum NetworkConfigMethod {
-    DHCP,
-    STATIC,
+    Dhcp,
+    Static,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum DeviceStatus {
-    ONLINE,
-    OFFLINE,
-    CAMERA_INITIALIZING,
-    NO_VIDEO,
-    ACTIVE,
+    Online,
+    Offline,
+    CameraInitializing,
+    NoVideo,
+    Active,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
-pub enum AnalogAudioOutputSelect {
+pub enum AudioOutputSelect {
     DecodeMain,
     DecodeComms,
     DecodeLoop,
@@ -30,42 +29,31 @@ pub enum AnalogAudioOutputSelect {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum OperationMode {
-    ENCODE,
-    DECODE,
+    Encode,
+    Decode,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
 pub enum VideoOutputMode {
-    SDI,
-    HDMI,
+    Sdi,
+    Hdmi,
     LowLatency,
     NormalMode,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
+#[serde(rename_all = "UPPERCASE")]
 pub enum TxProtocolMode {
     Multicast,
-    TCP,
-    MultiTCP,
-    UDP,
-}
-
-// Enums with special renaming
-#[derive(Serialize, Deserialize, Debug)]
-pub enum PTZSpeed {
-    #[serde(rename = "Range0to21")]
-    Range0to21,
-    #[serde(rename = "Range0to18")]
-    Range0to18,
-    #[serde(rename = "Range0to7")]
-    Range0to7,
+    Tcp,
+    MultiTcp,
+    Udp,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
-pub enum BackLightStatus {
+pub enum OnOffStatus {
     On,
     Off,
 }
@@ -73,85 +61,35 @@ pub enum BackLightStatus {
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
 pub enum ExposureMode {
-    FULL_AUTO,
-    MANUAL,
-    SHUTTER_PRI,
-    IRIS_PRI,
-    BRIGHT,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum GainPointStatus {
-    On,
-    Off,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum HighSensitivityStatus {
-    On,
-    Off,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum ShutterControlOverwriteStatus {
-    On,
-    Off,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum SlowShutterEnableStatus {
-    On,
-    Off,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum SpotlightStatus {
-    On,
-    Off,
+    FullAuto,
+    Manual,
+    ShutterPri,
+    IrisPri,
+    Bright,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
 pub enum WhiteBalanceMode {
-    AUTO,
-    INDOOR,
-    OUTDOOR,
-    OUTDOOR_AUTO,
-    ONEPUSH,
-    ATW,
-    MANUAL,
-    SVL_AUTO,
-    SVL,
-    SVL_OUTDOOR_AUTO,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum MatrixStatus {
-    On,
-    Off,
+    Auto,
+    Indoor,
+    Outdoor,
+    OutdoorAuto,
+    OnePush,
+    Atw,
+    Manual,
+    SvlAuto,
+    Svl,
+    SvlOutdoorAuto,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum ColorSuppressionLevel {
-    OFF,
-    LOW,
-    MEDIUM,
-    HIGH,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum IRCutFilterStatus {
-    Auto,
-    On,
     Off,
+    Low,
+    Medium,
+    High,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -162,62 +100,39 @@ pub enum NoiseReductionLevel {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum VideoEnhancementStatus {
-    On,
-    Off,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum ExternalSettingsStatus {
-    On,
-    Off,
+#[serde(rename_all = "UPPERCASE")]
+pub enum BandwidthLevel {
+    Default,
+    Low,
+    Middle,
+    High,
+    Wide,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "UPPERCASE")]
-pub enum BandwidthLevel {
-    DEFAULT,
-    LOW,
-    MIDDLE,
-    HIGH,
-    WIDE,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-pub enum DetailLevel {
-    On,
-    Off,
+pub enum BrightnessComp {
+    VeryDark,
+    Dark,
+    Standard,
+    Bright,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "UPPERCASE")]
 pub enum CompensationLevel {
-    LOW,
-    MID,
-    HIGH,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "UPPERCASE")]
-pub enum StreamingProtocol {
-    RTSP,
-    SRT,
-    HX,
-    RTMP,
-    DISABLE,
+    Low,
+    Mid,
+    High,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "PascalCase")]
-pub enum NDIDisServStatus {
-    NDIDisServEn,
-    NDIDisServDis,
+pub enum NdiDisServStatus {
+    NdiDisServEn,
+    NdiDisServDis,
 }
 
-// Structs with specific renaming
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DeviceInfo {
     #[serde(rename = "FallbackIP")]
@@ -253,18 +168,18 @@ pub struct AudioSettings {
     #[serde(rename = "AnalogAudioOutGain")]
     pub analog_audio_out_gain: String,
     #[serde(rename = "AnalogAudiooutputselect")]
-    pub analog_audio_output_select: AnalogAudioOutputSelect,
+    pub analog_audio_output_select: AudioOutputSelect,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum VideoOutputInterface {
-    SDI,
-    HDMI,
+    Sdi,
+    Hdmi,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct NDISettings {
+pub struct NdiSettings {
     #[serde(rename = "Txpm")]
     pub txpm: TxProtocolMode,
     #[serde(rename = "Txnetprefix")]
@@ -276,7 +191,7 @@ pub struct NDISettings {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct PTZSettings {
+pub struct PtzSettings {
     #[serde(rename = "PanSpeed")]
     pub pan_speed: String,
     #[serde(rename = "TiltSpeed")]
@@ -288,7 +203,7 @@ pub struct PTZSettings {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ExposureSettings {
     #[serde(rename = "BackLight")]
-    pub backlight: BackLightStatus,
+    pub backlight: OnOffStatus,
     #[serde(rename = "ExpMode")]
     pub exposure_mode: ExposureMode,
     #[serde(rename = "ExpCompLvl")]
@@ -296,15 +211,15 @@ pub struct ExposureSettings {
     #[serde(rename = "GainLimit")]
     pub gain_limit: i32,
     #[serde(rename = "GainPoint")]
-    pub gain_point: GainPointStatus,
+    pub gain_point: OnOffStatus,
     #[serde(rename = "HighSensitivity")]
-    pub high_sensitivity: HighSensitivityStatus,
+    pub high_sensitivity: OnOffStatus,
     #[serde(rename = "ShutterControlOverwrite")]
-    pub shutter_control_overwrite: ShutterControlOverwriteStatus,
+    pub shutter_control_overwrite: OnOffStatus,
     #[serde(rename = "SlowShutterEn")]
-    pub slow_shutter_enable: SlowShutterEnableStatus,
+    pub slow_shutter_enable: OnOffStatus,
     #[serde(rename = "Spotlight")]
-    pub spotlight: SpotlightStatus,
+    pub spotlight: OnOffStatus,
     #[serde(rename = "IrisLevel")]
     pub aperature: String,
 }
@@ -342,89 +257,291 @@ pub struct PictureSettings {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ColourMatrixSettings {
     #[serde(rename = "Matrix")]
-    pub matrix: MatrixStatus,
+    pub matrix: OnOffStatus,
     #[serde(rename = "Level")]
     pub level: i32,
     #[serde(rename = "ChromeSuppress")]
     pub color_suppression_level: ColorSuppressionLevel,
     #[serde(rename = "IRCutFilter")]
-    pub ir_cut_filter: IRCutFilterStatus,
+    pub ir_cut_filter: OnOffStatus,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct AdvancedSettings {
-    #[serde(rename = "TWODNR")]
-    pub nr: NoiseReductionLevel,
+    #[serde(rename = "Brightness")]
+    pub brightness: i32, // Range (0 to 6)
+    #[serde(rename = "BrightnessComp")]
+    pub brightness_comp: BrightnessComp, // VERY DARK, DARK, STANDARD, BRIGHT
+    #[serde(rename = "CompLevel")]
+    pub comp_level: CompensationLevel, // LOW, MID, HIGH
+    #[serde(rename = "GammaOffset")]
+    pub gamma_offset: i32, // Range (16 to 64)
+    #[serde(rename = "HighResolution")]
+    pub high_resolution: OnOffStatus, // On, Off
     #[serde(rename = "VideoEnhancement")]
-    pub ve: VideoEnhancementStatus,
+    pub video_enhancement: OnOffStatus, // On, Off
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ExternalSettings {
     #[serde(rename = "Aux")]
-    pub external_sync: ExternalSettingsStatus,
+    pub aux: OnOffStatus,
+    #[serde(rename = "RainWiper")]
+    pub rain_wiper: OnOffStatus,
     #[serde(rename = "V12vOut")]
-    pub external_sync_output: ExternalSettingsStatus,
+    pub v12v_out: OnOffStatus,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum BwBalanceType {
+    Type1,
+    Type2,
+    Type3,
+    Type4,
+    Type5,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct DetailSettings {
     #[serde(rename = "Bandwidth")]
     pub bandwidth: BandwidthLevel,
+    #[serde(rename = "BwBalance")]
+    pub bw_balance: BwBalanceType,
+    #[serde(rename = "Crispening")]
+    pub crispening: u8,
     #[serde(rename = "Detail")]
-    pub detail_level: DetailLevel,
+    pub detail: OnOffStatus,
+    #[serde(rename = "HighLightDetail")]
+    pub highlight_detail: u8,
+    #[serde(rename = "HvBalance")]
+    pub hv_balance: i8,
+    #[serde(rename = "Limit")]
+    pub limit: u8,
+    #[serde(rename = "SuperLow")]
+    pub super_low: u8,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum BlackLevelRange {
+    Low,
+    Mid,
+    High,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum SettingsType {
+    Pattern,
+    Standard,
+    Straight,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GammaSettings {
-    #[serde(rename = "BrightnessComp")]
-    pub compensation: CompensationLevel,
     #[serde(rename = "BlackGammaLevel")]
-    pub gamma: i32,
+    pub black_gamma_level: u8,
+    #[serde(rename = "BlackLevel")]
+    pub black_level: u8,
+    #[serde(rename = "BlackLevelRange")]
+    pub black_level_range: BlackLevelRange,
+    #[serde(rename = "Effect")]
+    pub effect: i8,
+    #[serde(rename = "Level")]
+    pub level: u8,
+    #[serde(rename = "Offset")]
+    pub offset: i8,
+    #[serde(rename = "Pattern")]
+    pub pattern: u16,
+    #[serde(rename = "PatternFine")]
+    pub pattern_fine: u8,
+    #[serde(rename = "Settings")]
+    pub settings: SettingsType,
+    #[serde(rename = "VisibilityEnhancer")]
+    pub visibility_enhancer: OnOffStatus,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Silicon2CodecSettings {
+#[serde(rename_all = "UPPERCASE")]
+pub enum Protocol {
+    Rtsp,
+    Srt,
+    Hx,
+    Rtmp,
+    Disable,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum ModeSel {
+    Custom,
+    Low,
+    Med,
+    High,
+    Ultra,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "UPPERCASE")]
+pub enum BitrateControl {
+    Vbr,
+    Cbr,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CodecModeSettings {
     #[serde(rename = "Bitrate")]
     pub bitrate: i32,
+    #[serde(rename = "GOPSize")]
+    pub gop_size: i32,
     #[serde(rename = "QuantFactorI")]
     pub quant_factor_i: i32,
     #[serde(rename = "QuantFactorP")]
     pub quant_factor_p: i32,
-    #[serde(rename = "GOPSize")]
-    pub gop_size: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Silicon2EncodeSettings {
+pub struct CodecSettings {
+    #[serde(rename = "BitrateControl")]
+    pub bitrate_control: BitrateControl,
+    #[serde(rename = "ModeSel")]
+    pub mode_sel: ModeSel,
+    #[serde(rename = "Custom")]
+    pub custom: CodecModeSettings,
+    #[serde(rename = "Low")]
+    pub low: CodecModeSettings,
+    #[serde(rename = "Med")]
+    pub med: CodecModeSettings,
+    #[serde(rename = "High")]
+    pub high: CodecModeSettings,
+    #[serde(rename = "Ultra")]
+    pub ultra: CodecModeSettings,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Silicon2CodecSettings {
+    #[serde(rename = "DISABLE")]
+    pub disable: CodecSettings,
+    #[serde(rename = "HX")]
+    pub hx: CodecSettings,
+    #[serde(rename = "RTMP")]
+    pub rtmp: CodecSettings,
+    #[serde(rename = "RTSP")]
+    pub rtsp: CodecSettings,
+    #[serde(rename = "SRT")]
+    pub srt: CodecSettings,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub enum AuthEnable {
+    True,
+    False,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub enum Encryption {
+    True,
+    False,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub enum Mode {
+    Caller,
+    Listener,
+    Rendezvous,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub enum ServerSelection {
+    Local,
+    Remote,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct RTMPSettings {
+    #[serde(rename = "AuthEnable")]
+    pub auth_enable: AuthEnable,
+    #[serde(rename = "ConnectionURL")]
+    pub connection_url: String,
+    #[serde(rename = "Password")]
+    pub password: String,
+    #[serde(rename = "Server")]
+    pub server: String,
+    #[serde(rename = "ServerSelection")]
+    pub server_selection: ServerSelection,
+    #[serde(rename = "StreamKeyLocal")]
+    pub stream_key_local: String,
+    #[serde(rename = "StreamKeyRemote")]
+    pub stream_key_remote: String,
+    #[serde(rename = "UserName")]
+    pub user_name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct RTSPSettings {
+    #[serde(rename = "AuthEnable")]
+    pub auth_enable: AuthEnable,
+    #[serde(rename = "ConnectionURL")]
+    pub connection_url: String,
+    #[serde(rename = "Password")]
+    pub password: String,
+    #[serde(rename = "Port")]
+    pub port: i32,
     #[serde(rename = "StreamName")]
     pub stream_name: String,
-    #[serde(rename = "Protocol")]
-    pub protocol: StreamingProtocol,
+    #[serde(rename = "UserName")]
+    pub user_name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct SRTSettings {
+    #[serde(rename = "ConnectionURL")]
+    pub connection_url: String,
+    #[serde(rename = "Encryption")]
+    pub encryption: Encryption,
     #[serde(rename = "IPAddress")]
     pub ip_address: String,
     #[serde(rename = "Port")]
     pub port: i32,
-    #[serde(rename = "Mode")]
-    pub mode: String,
     #[serde(rename = "Latency")]
     pub latency: i32,
-    #[serde(rename = "Encryption")]
-    pub encryption: bool,
+    #[serde(rename = "Mode")]
+    pub mode: Mode,
     #[serde(rename = "Passphrase")]
     pub passphrase: String,
     #[serde(rename = "PBKeyLen")]
     pub pb_key_len: i32,
+    #[serde(rename = "StreamID")]
+    pub stream_id: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct NDISourcesMap {
+pub struct Silicon2EncodeSettings {
+    #[serde(rename = "HaiVisionPlayerSupport")]
+    pub hai_vision_player_support: bool,
+    #[serde(rename = "RTMP")]
+    pub rtmp: RTMPSettings,
+    #[serde(rename = "RTSP")]
+    pub rtsp: RTSPSettings,
+    #[serde(rename = "SRT")]
+    pub srt: SRTSettings,
+    #[serde(rename = "StreamingProtocol")]
+    pub streaming_protocol: Protocol,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct NdiSourcesMap {
     #[serde(flatten)]
     pub sources: HashMap<String, String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct NDISourceInfo {
+pub struct NdiSourceInfo {
     #[serde(rename = "sourceName")]
     pub source_name: String,
 }
@@ -440,13 +557,4 @@ impl std::fmt::Display for EncodeDecodeStatus {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?}", self)
     }
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ErrorResponse {
-    pub errno: Option<i32>,
-    pub code: Option<String>,
-    pub syscall: Option<String>,
-    pub path: Option<String>,
-    pub status: Option<String>,
 }

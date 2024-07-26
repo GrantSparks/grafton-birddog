@@ -44,46 +44,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let ndi_settings = client.get_ndi_settings().await?;
     println!("NDI Settings: {:?}", ndi_settings);
 
-    // Get exposure settings
-    let exposure_settings = client.get_exposure_settings().await?;
-    println!("Exposure Settings: {:?}", exposure_settings);
-
-    // Get white balance settings
-    let white_balance_settings = client.get_white_balance_settings().await?;
-    println!("White Balance Settings: {:?}", white_balance_settings);
-
-    // Get picture settings
-    let picture_settings = client.get_picture_settings().await?;
-    println!("Picture Settings: {:?}", picture_settings);
-
-    // Get colour matrix settings
-    let colour_matrix_settings = client.get_colour_matrix_settings().await?;
-    println!("Colour Matrix Settings: {:?}", colour_matrix_settings);
-
-    // Get advanced settings
-    let advanced_settings = client.get_advanced_settings().await?;
-    println!("Advanced Settings: {:?}", advanced_settings);
-
-    // Get external settings
-    let external_settings = client.get_external_settings().await?;
-    println!("External Settings: {:?}", external_settings);
-
-    // Get detail settings
-    let detail_settings = client.get_detail_settings().await?;
-    println!("Detail Settings: {:?}", detail_settings);
-
-    // Get gamma settings
-    let gamma_settings = client.get_gamma_settings().await?;
-    println!("Gamma Settings: {:?}", gamma_settings);
-
-    // Get Silicon2 codec settings
-    let silicon2_codec_settings = client.get_silicon2_codec_settings().await?;
-    println!("Silicon2 Codec Settings: {:?}", silicon2_codec_settings);
-
-    // Get Silicon2 encode settings
-    let silicon2_encode_settings = client.get_silicon2_encode_settings().await?;
-    println!("Silicon2 Encode Settings: {:?}", silicon2_encode_settings);
-
     let sources = client.get_ndi_sources_list().await?;
     println!("Active NDI sources: {:?}", sources);
 

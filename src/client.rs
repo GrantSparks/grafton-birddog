@@ -4,8 +4,8 @@ use crate::{
     error::BirdDogError,
     models::{
         AdvancedSettings, AudioSettings, ColourMatrixSettings, DetailSettings, DeviceInfo,
-        EncodeDecodeStatus, ErrorResponse, ExposureSettings, ExternalSettings, GammaSettings,
-        NDISettings, NDISourceInfo, NDISourcesMap, OperationMode, PTZSettings, PictureSettings,
+        EncodeDecodeStatus, ExposureSettings, ExternalSettings, GammaSettings, NdiSettings,
+        NdiSourceInfo, NdiSourcesMap, OperationMode, PictureSettings, PtzSettings,
         Silicon2CodecSettings, Silicon2EncodeSettings, VideoOutputInterface, WhiteBalanceSettings,
     },
 };
@@ -142,12 +142,12 @@ impl BirdDogClient {
     ///
     /// # Returns
     ///
-    /// * `OperationMode` - The current operation mode of the device.
+    /// * `EncodeDecodeStatus` - The current operation mode of the device (encode/decode)
     ///
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `OperationMode`.
-    pub async fn get_operation_mode(&self) -> Result<OperationMode, BirdDogError> {
+    pub async fn get_operation_mode(&self) -> Result<EncodeDecodeStatus, BirdDogError> {
         let url = format!("{}/operationmode", self.base_url);
         let resp = self.client.get(&url).send().await?;
 
@@ -156,8 +156,8 @@ impl BirdDogClient {
 
         // Match the raw response to the OperationMode enum
         let operation_mode = match raw_response.trim().to_lowercase().as_str() {
-            "encode" => OperationMode::ENCODE,
-            "decode" => OperationMode::DECODE,
+            "encode" => EncodeDecodeStatus::Encode,
+            "decode" => EncodeDecodeStatus::Decode,
             _ => return Err(BirdDogError::RequestError(raw_response)),
         };
 
@@ -197,8 +197,8 @@ impl BirdDogClient {
 
         // Deserialize the raw response as plain text
         match raw_response.trim().to_lowercase().as_str() {
-            "sdi" => Ok(VideoOutputInterface::SDI),
-            "hdmi" => Ok(VideoOutputInterface::HDMI),
+            "sdi" => Ok(VideoOutputInterface::Sdi),
+            "hdmi" => Ok(VideoOutputInterface::Hdmi),
             // Add more cases as needed
             _ => Err(BirdDogError::RequestError(raw_response)),
         }
@@ -231,14 +231,14 @@ impl BirdDogClient {
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `NDISettings`.
-    pub async fn get_ndi_settings(&self) -> Result<NDISettings, BirdDogError> {
+    pub async fn get_ndi_settings(&self) -> Result<NdiSettings, BirdDogError> {
         let url = format!("{}/encodeTransport", self.base_url);
         let resp = self
             .client
             .get(&url)
             .send()
             .await?
-            .json::<NDISettings>()
+            .json::<NdiSettings>()
             .await?;
         Ok(resp)
     }
@@ -252,7 +252,7 @@ impl BirdDogClient {
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails.
-    pub async fn set_ndi_settings(&self, settings: &NDISettings) -> Result<(), BirdDogError> {
+    pub async fn set_ndi_settings(&self, settings: &NdiSettings) -> Result<(), BirdDogError> {
         let url = format!("{}/encodeTransport", self.base_url);
         self.client.post(&url).json(settings).send().await?;
         Ok(())
@@ -267,36 +267,14 @@ impl BirdDogClient {
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `PTZSettings`.
-    pub async fn get_ptz_settings(&self) -> Result<PTZSettings, BirdDogError> {
+    pub async fn get_ptz_settings(&self) -> Result<PtzSettings, BirdDogError> {
         let url = format!(
             "{}/birddogptzsetup?PanSpeed=&TiltSpeed=&ZoomSpeed=",
             self.base_url
         );
-        let resp = self.client.get(&url).send().await?;
+        let raw_response = self.client.get(&url).send().await?.text().await?;
 
-        // Extract the status code first
-        let status = resp.status();
-        // Read the response body as text
-        let raw_response = resp.text().await?;
-
-        if !status.is_success() {
-            // Attempt to parse the error response
-            if let Ok(error_response) = serde_json::from_str::<ErrorResponse>(&raw_response) {
-                return Err(BirdDogError::RequestError(format!(
-                    "Failed request with status: {}. Response: {:?}",
-                    status, error_response
-                )));
-            } else {
-                // If parsing the error response fails, return the raw response
-                return Err(BirdDogError::RequestError(format!(
-                    "Failed request with status: {}. Response: {}",
-                    status, raw_response
-                )));
-            }
-        }
-
-        // Deserialize the raw response into PTZSettings
-        let ptz_settings: PTZSettings = serde_json::from_str(&raw_response).map_err(|e| {
+        let ptz_settings: PtzSettings = serde_json::from_str(&raw_response).map_err(|e| {
             BirdDogError::RequestError(format!(
                 "Failed to deserialize PTZ settings: {}. Response: {}",
                 e, raw_response
@@ -315,7 +293,7 @@ impl BirdDogClient {
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails.
-    pub async fn set_ptz_settings(&self, settings: &PTZSettings) -> Result<(), BirdDogError> {
+    pub async fn set_ptz_settings(&self, settings: &PtzSettings) -> Result<(), BirdDogError> {
         let url = format!("{}/birddogptzsetup", self.base_url);
         self.client.post(&url).json(settings).send().await?;
         Ok(())
@@ -332,30 +310,8 @@ impl BirdDogClient {
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `ExposureSettings`.
     pub async fn get_exposure_settings(&self) -> Result<ExposureSettings, BirdDogError> {
         let url = format!("{}/birddogexpsetup", self.base_url);
-        let resp = self.client.get(&url).send().await?;
+        let raw_response = self.client.get(&url).send().await?.text().await?;
 
-        // Extract the status code first
-        let status = resp.status();
-        // Read the response body as text
-        let raw_response = resp.text().await?;
-
-        if !status.is_success() {
-            // Attempt to parse the error response
-            if let Ok(error_response) = serde_json::from_str::<ErrorResponse>(&raw_response) {
-                return Err(BirdDogError::RequestError(format!(
-                    "Failed request with status: {}\nError Details:\n  errno: {:?}\n  code: {:?}\n  syscall: {:?}\n  path: {:?}\n  status: {:?}",
-                    status, error_response.errno, error_response.code, error_response.syscall, error_response.path, error_response.status
-                )));
-            } else {
-                // If parsing the error response fails, return the raw response
-                return Err(BirdDogError::RequestError(format!(
-                    "Failed request with status: {}\nResponse: {}",
-                    status, raw_response
-                )));
-            }
-        }
-
-        // Deserialize the raw response into ExposureSettings
         let exposure_settings: ExposureSettings =
             serde_json::from_str(&raw_response).map_err(|e| {
                 BirdDogError::RequestError(format!(
@@ -741,13 +697,13 @@ impl BirdDogClient {
     /// # Errors
     ///
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `NDISourcesMap`.
-    pub async fn get_ndi_sources_list(&self) -> Result<NDISourcesMap, BirdDogError> {
+    pub async fn get_ndi_sources_list(&self) -> Result<NdiSourcesMap, BirdDogError> {
         let url = format!("{}/List", self.base_url);
         let response = self.client.get(&url).send().await?;
 
         if response.status().is_success() {
             let raw_body = response.text().await?;
-            let ndi_sources_map = serde_json::from_str::<NDISourcesMap>(&raw_body)
+            let ndi_sources_map = serde_json::from_str::<NdiSourcesMap>(&raw_body)
                 .map_err(BirdDogError::SerializationError)?;
             Ok(ndi_sources_map)
         } else {
@@ -831,7 +787,7 @@ impl BirdDogClient {
         &self,
         ch_num: u8,
         status: EncodeDecodeStatus,
-    ) -> Result<NDISourceInfo, BirdDogError> {
+    ) -> Result<NdiSourceInfo, BirdDogError> {
         let url = format!(
             "{}/connectTo?ChNum={}&status={}",
             self.base_url, ch_num, status
@@ -841,7 +797,7 @@ impl BirdDogClient {
             .get(&url)
             .send()
             .await?
-            .json::<NDISourceInfo>()
+            .json::<NdiSourceInfo>()
             .await?;
         Ok(resp)
     }
