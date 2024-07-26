@@ -4,8 +4,8 @@ use crate::{
     error::BirdDogError,
     models::{
         AdvancedSettings, AudioSettings, ColourMatrixSettings, DetailSettings, DeviceInfo,
-        EncodeDecodeStatus, ExposureSettings, ExternalSettings, GammaSettings, NDISettings,
-        NDISourceInfo, NDISourcesMap, OperationMode, PTZSettings, PictureSettings,
+        EncodeDecodeStatus, ErrorResponse, ExposureSettings, ExternalSettings, GammaSettings,
+        NDISettings, NDISourceInfo, NDISourcesMap, OperationMode, PTZSettings, PictureSettings,
         Silicon2CodecSettings, Silicon2EncodeSettings, VideoOutputInterface, WhiteBalanceSettings,
     },
 };
@@ -149,14 +149,19 @@ impl BirdDogClient {
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `OperationMode`.
     pub async fn get_operation_mode(&self) -> Result<OperationMode, BirdDogError> {
         let url = format!("{}/operationmode", self.base_url);
-        let resp = self
-            .client
-            .get(&url)
-            .send()
-            .await?
-            .json::<OperationMode>()
-            .await?;
-        Ok(resp)
+        let resp = self.client.get(&url).send().await?;
+
+        // Read the response body as text
+        let raw_response = resp.text().await?;
+
+        // Match the raw response to the OperationMode enum
+        let operation_mode = match raw_response.trim().to_lowercase().as_str() {
+            "encode" => OperationMode::ENCODE,
+            "decode" => OperationMode::DECODE,
+            _ => return Err(BirdDogError::RequestError(raw_response)),
+        };
+
+        Ok(operation_mode)
     }
 
     /// Sets the operation mode using the endpoint `/operationmode`.
@@ -185,14 +190,18 @@ impl BirdDogClient {
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `VideoOutputInterface`.
     pub async fn get_video_output_interface(&self) -> Result<VideoOutputInterface, BirdDogError> {
         let url = format!("{}/videooutputinterface", self.base_url);
-        let resp = self
-            .client
-            .get(&url)
-            .send()
-            .await?
-            .json::<VideoOutputInterface>()
-            .await?;
-        Ok(resp)
+        let resp = self.client.get(&url).send().await?;
+
+        // Read the response body as text
+        let raw_response = resp.text().await?;
+
+        // Deserialize the raw response as plain text
+        match raw_response.trim().to_lowercase().as_str() {
+            "sdi" => Ok(VideoOutputInterface::SDI),
+            "hdmi" => Ok(VideoOutputInterface::HDMI),
+            // Add more cases as needed
+            _ => Err(BirdDogError::RequestError(raw_response)),
+        }
     }
 
     /// Sets the video output interface mode using the endpoint `/videooutputinterface`.
@@ -259,15 +268,42 @@ impl BirdDogClient {
     ///
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `PTZSettings`.
     pub async fn get_ptz_settings(&self) -> Result<PTZSettings, BirdDogError> {
-        let url = format!("{}/birddogptzsetup", self.base_url);
-        let resp = self
-            .client
-            .get(&url)
-            .send()
-            .await?
-            .json::<PTZSettings>()
-            .await?;
-        Ok(resp)
+        let url = format!(
+            "{}/birddogptzsetup?PanSpeed=&TiltSpeed=&ZoomSpeed=",
+            self.base_url
+        );
+        let resp = self.client.get(&url).send().await?;
+
+        // Extract the status code first
+        let status = resp.status();
+        // Read the response body as text
+        let raw_response = resp.text().await?;
+
+        if !status.is_success() {
+            // Attempt to parse the error response
+            if let Ok(error_response) = serde_json::from_str::<ErrorResponse>(&raw_response) {
+                return Err(BirdDogError::RequestError(format!(
+                    "Failed request with status: {}. Response: {:?}",
+                    status, error_response
+                )));
+            } else {
+                // If parsing the error response fails, return the raw response
+                return Err(BirdDogError::RequestError(format!(
+                    "Failed request with status: {}. Response: {}",
+                    status, raw_response
+                )));
+            }
+        }
+
+        // Deserialize the raw response into PTZSettings
+        let ptz_settings: PTZSettings = serde_json::from_str(&raw_response).map_err(|e| {
+            BirdDogError::RequestError(format!(
+                "Failed to deserialize PTZ settings: {}. Response: {}",
+                e, raw_response
+            ))
+        })?;
+
+        Ok(ptz_settings)
     }
 
     /// Sets the PTZ settings using the endpoint `/birddogptzsetup`.
@@ -296,14 +332,39 @@ impl BirdDogClient {
     /// Returns a `BirdDogError` if the request fails or the response cannot be parsed as `ExposureSettings`.
     pub async fn get_exposure_settings(&self) -> Result<ExposureSettings, BirdDogError> {
         let url = format!("{}/birddogexpsetup", self.base_url);
-        let resp = self
-            .client
-            .get(&url)
-            .send()
-            .await?
-            .json::<ExposureSettings>()
-            .await?;
-        Ok(resp)
+        let resp = self.client.get(&url).send().await?;
+
+        // Extract the status code first
+        let status = resp.status();
+        // Read the response body as text
+        let raw_response = resp.text().await?;
+
+        if !status.is_success() {
+            // Attempt to parse the error response
+            if let Ok(error_response) = serde_json::from_str::<ErrorResponse>(&raw_response) {
+                return Err(BirdDogError::RequestError(format!(
+                    "Failed request with status: {}\nError Details:\n  errno: {:?}\n  code: {:?}\n  syscall: {:?}\n  path: {:?}\n  status: {:?}",
+                    status, error_response.errno, error_response.code, error_response.syscall, error_response.path, error_response.status
+                )));
+            } else {
+                // If parsing the error response fails, return the raw response
+                return Err(BirdDogError::RequestError(format!(
+                    "Failed request with status: {}\nResponse: {}",
+                    status, raw_response
+                )));
+            }
+        }
+
+        // Deserialize the raw response into ExposureSettings
+        let exposure_settings: ExposureSettings =
+            serde_json::from_str(&raw_response).map_err(|e| {
+                BirdDogError::RequestError(format!(
+                    "Failed to deserialize Exposure settings.\nError: {}\nResponse: {}",
+                    e, raw_response
+                ))
+            })?;
+
+        Ok(exposure_settings)
     }
 
     /// Sets the exposure settings using the endpoint `/birddogexpsetup`.
