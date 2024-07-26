@@ -1,6 +1,6 @@
 [package]
 name = "grafton-birddog"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Grant Sparks <grant@grafton.ai>"]
 description = "Unofficial idiomatic rust bindings for the BirdDog RESTful API 2.0"
@@ -13,8 +13,8 @@ readme = "README.md"
 exclude = ["target/", ".gitignore", ".github/"]
 
 [dependencies]
-reqwest = { version = "*", features = ["json"] }
+reqwest = { version = "0.12", features = ["json"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }
-thiserror = "*"
+thiserror = "1"
