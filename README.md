@@ -1,4 +1,4 @@
-# Rust API client for openapi
+# grafton-birddog
 
 Unofficial idiomatic rust bindings for the BirdDog RESTful API 2.0 generated using OpenAPI Generator.
 
@@ -17,6 +17,8 @@ grafton-birddog = "*"
 ```
 
 ## Documentation for API Endpoints
+
+All URIs are relative to *http://192.168.2.197:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -47,7 +49,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**birddogwbsetup_post**](docs/DefaultApi.md#birddogwbsetup_post) | **POST** /birddogwbsetup | Set White Balance Settings
 *DefaultApi* | [**capture_get**](docs/DefaultApi.md#capture_get) | **GET** /capture | Capture screensaver frame for Encode/Decode
 *DefaultApi* | [**connect_to_get**](docs/DefaultApi.md#connect_to_get) | **GET** /connectTo | Retrieve connected NDI Source info (sourceName)
-*DefaultApi* | [**connect_to_post**](docs/DefaultApi.md#connect_to_post) | **POST** /connectTo | Connect to NDI Source
+*DefaultApi* | [**connect_to_post**](docs/DefaultApi.md#connect_to_post) | **POST** /connectTo | Connects to NDI Source
 *DefaultApi* | [**decode_transport_get**](docs/DefaultApi.md#decode_transport_get) | **GET** /decodeTransport | Retrieve NDI network settings
 *DefaultApi* | [**decode_transport_post**](docs/DefaultApi.md#decode_transport_post) | **POST** /decodeTransport | Set NDI network settings
 *DefaultApi* | [**decodesetup_get**](docs/DefaultApi.md#decodesetup_get) | **GET** /decodesetup | Retrieve Decode Settings
@@ -78,30 +80,70 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**restart_post**](docs/DefaultApi.md#restart_post) | **POST** /restart | Restart video subsystem on device
 *DefaultApi* | [**save_post**](docs/DefaultApi.md#save_post) | **POST** /save | Save Preset
 *DefaultApi* | [**version_get**](docs/DefaultApi.md#version_get) | **GET** /version | Hardware version number query
-*DefaultApi* | [**videooutputinterface_get**](docs/DefaultApi.md#videooutputinterface_get) | **GET** /videooutputinterface | Retrieve current videooutputinterface mode of your BirdDog device (sdi/hdmi) or (LowLatency/NormalMode)
-*DefaultApi* | [**videooutputinterface_post**](docs/DefaultApi.md#videooutputinterface_post) | **POST** /videooutputinterface | Set base videooutputinterface mode of your BirdDog device
+*DefaultApi* | [**videooutputinterface_get**](docs/DefaultApi.md#videooutputinterface_get) | **GET** /videooutputinterface | Retrieve current video output interface mode of your BirdDog device (sdi/hdmi) or (LowLatency/NormalMode)
+*DefaultApi* | [**videooutputinterface_post**](docs/DefaultApi.md#videooutputinterface_post) | **POST** /videooutputinterface | Set base video output interface mode of your BirdDog device
+
 
 ## Documentation For Models
 
+ - [AboutGet200Response](docs/AboutGet200Response.md)
+ - [AboutGetResponse](docs/AboutGetResponse.md)
+ - [AnalogaudiosetupGet200Response](docs/AnalogaudiosetupGet200Response.md)
  - [AnalogaudiosetupPostRequest](docs/AnalogaudiosetupPostRequest.md)
- - [BirddogadvancesetupPostRequest](docs/BirddogadvancesetupPostRequest.md)
- - [BirddogcmsetupPostRequest](docs/BirddogcmsetupPostRequest.md)
- - [BirddogdetsetupPostRequest](docs/BirddogdetsetupPostRequest.md)
- - [BirddogexpsetupPostRequest](docs/BirddogexpsetupPostRequest.md)
- - [BirddogexternalsetupPostRequest](docs/BirddogexternalsetupPostRequest.md)
- - [BirddoggammasetupPostRequest](docs/BirddoggammasetupPostRequest.md)
- - [BirddogpicsetupPostRequest](docs/BirddogpicsetupPostRequest.md)
- - [BirddogptzsetupPostRequest](docs/BirddogptzsetupPostRequest.md)
+ - [AnalogaudiosetupResponse](docs/AnalogaudiosetupResponse.md)
+ - [BirddogadvancesetupGet200Response](docs/BirddogadvancesetupGet200Response.md)
+ - [BirddogadvancesetupResponse](docs/BirddogadvancesetupResponse.md)
+ - [BirddogcmsetupGet200Response](docs/BirddogcmsetupGet200Response.md)
+ - [BirddogcmsetupResponse](docs/BirddogcmsetupResponse.md)
+ - [BirddogdetsetupGet200Response](docs/BirddogdetsetupGet200Response.md)
+ - [BirddogdetsetupResponse](docs/BirddogdetsetupResponse.md)
+ - [BirddogexpsetupGet200Response](docs/BirddogexpsetupGet200Response.md)
+ - [BirddogexpsetupResponse](docs/BirddogexpsetupResponse.md)
+ - [BirddogexternalsetupGet200Response](docs/BirddogexternalsetupGet200Response.md)
+ - [BirddogexternalsetupResponse](docs/BirddogexternalsetupResponse.md)
+ - [BirddoggammasetupGet200Response](docs/BirddoggammasetupGet200Response.md)
+ - [BirddoggammasetupResponse](docs/BirddoggammasetupResponse.md)
+ - [BirddogpicsetupGet200Response](docs/BirddogpicsetupGet200Response.md)
+ - [BirddogpicsetupResponse](docs/BirddogpicsetupResponse.md)
+ - [BirddogptzsetupGet200Response](docs/BirddogptzsetupGet200Response.md)
+ - [BirddogptzsetupResponse](docs/BirddogptzsetupResponse.md)
+ - [Birddogsil2codecGet200Response](docs/Birddogsil2codecGet200Response.md)
+ - [Birddogsil2codecGet200ResponseDisable](docs/Birddogsil2codecGet200ResponseDisable.md)
+ - [Birddogsil2codecGet200ResponseDisableCustom](docs/Birddogsil2codecGet200ResponseDisableCustom.md)
+ - [Birddogsil2codecGet200ResponseDisableHigh](docs/Birddogsil2codecGet200ResponseDisableHigh.md)
+ - [Birddogsil2codecGet200ResponseDisableMed](docs/Birddogsil2codecGet200ResponseDisableMed.md)
+ - [Birddogsil2codecGet200ResponseDisableUltra](docs/Birddogsil2codecGet200ResponseDisableUltra.md)
+ - [Birddogsil2codecGet200ResponseHx](docs/Birddogsil2codecGet200ResponseHx.md)
+ - [Birddogsil2codecGet200ResponseHxHigh](docs/Birddogsil2codecGet200ResponseHxHigh.md)
+ - [Birddogsil2codecGet200ResponseRtmp](docs/Birddogsil2codecGet200ResponseRtmp.md)
+ - [Birddogsil2codecGet200ResponseRtmpCustom](docs/Birddogsil2codecGet200ResponseRtmpCustom.md)
  - [Birddogsil2codecPostRequest](docs/Birddogsil2codecPostRequest.md)
- - [Birddogsil2encPostRequest](docs/Birddogsil2encPostRequest.md)
- - [BirddogwbsetupPostRequest](docs/BirddogwbsetupPostRequest.md)
- - [ConnectToPostRequest](docs/ConnectToPostRequest.md)
- - [DecodeTransportPostRequest](docs/DecodeTransportPostRequest.md)
- - [DecodesetupPostRequest](docs/DecodesetupPostRequest.md)
- - [EncodeTransportPostRequest](docs/EncodeTransportPostRequest.md)
- - [EncodesetupPostRequest](docs/EncodesetupPostRequest.md)
- - [NdiDisServerPostRequest](docs/NdiDisServerPostRequest.md)
+ - [Birddogsil2codecResponse](docs/Birddogsil2codecResponse.md)
+ - [Birddogsil2encGet200Response](docs/Birddogsil2encGet200Response.md)
+ - [Birddogsil2encGet200ResponseRtmp](docs/Birddogsil2encGet200ResponseRtmp.md)
+ - [Birddogsil2encGet200ResponseRtsp](docs/Birddogsil2encGet200ResponseRtsp.md)
+ - [Birddogsil2encGet200ResponseSrt](docs/Birddogsil2encGet200ResponseSrt.md)
+ - [BirddogwbsetupGet200Response](docs/BirddogwbsetupGet200Response.md)
+ - [BirddogwbsetupResponse](docs/BirddogwbsetupResponse.md)
+ - [ConnectToGet200Response](docs/ConnectToGet200Response.md)
+ - [ConnectToResponse](docs/ConnectToResponse.md)
+ - [DecodeTransportGet200Response](docs/DecodeTransportGet200Response.md)
+ - [DecodeTransportResponse](docs/DecodeTransportResponse.md)
+ - [DecodesetupGet200Response](docs/DecodesetupGet200Response.md)
+ - [DecodesetupResponse](docs/DecodesetupResponse.md)
+ - [DecodestatusGet200Response](docs/DecodestatusGet200Response.md)
+ - [DecodestatusResponse](docs/DecodestatusResponse.md)
+ - [EncodeTransportGet200Response](docs/EncodeTransportGet200Response.md)
+ - [EncodeTransportResponse](docs/EncodeTransportResponse.md)
+ - [EncodesetupGet200Response](docs/EncodesetupGet200Response.md)
+ - [EncodesetupResponse](docs/EncodesetupResponse.md)
+ - [ListGet200Response](docs/ListGet200Response.md)
+ - [ListResponse](docs/ListResponse.md)
+ - [NdiDisServerGet200Response](docs/NdiDisServerGet200Response.md)
+ - [NdiDisServerResponse](docs/NdiDisServerResponse.md)
  - [RecallPostRequest](docs/RecallPostRequest.md)
+ - [RecallResponse](docs/RecallResponse.md)
+ - [SaveResponse](docs/SaveResponse.md)
 
 
 To get access to the crate's generated documentation, use:

@@ -10,7 +10,7 @@ homepage = "https://www.grafton.ai"
 categories = ["api-bindings"]
 keywords = ["ndi", "video", "audio", "network"]
 readme = "README.md"
-exclude = ["target/", ".gitignore", ".github/", ".openapi-generator-ignore*"]
+exclude = ["target/", ".gitignore", ".github/", ".openapi-generator*"]
 
 [dependencies]
 serde = { version = "^1.0", features = ["derive"] }
